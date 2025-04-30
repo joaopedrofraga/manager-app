@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:manager_app/core/config/app_material.dart';
+import 'package:manager_app/core/config/app_routes.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -10,6 +11,8 @@ class App extends StatelessWidget {
       title: AppMaterial.title,
       theme: AppMaterial.getTheme,
       locale: AppMaterial.defaultLocale,
+      routes: AppRoutes.getRoutes,
+      initialRoute: AppRoutes.initialRoute,
     );
   }
 }

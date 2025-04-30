@@ -5,3 +5,40 @@
 # Xcode-related
 **/dgph
 **/xcuserdata/
+
+# Flutter/Dart padrão
+.dart_tool/
+.packages
+.pub-cache/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-versions
+generated_plugin_registrant.dart
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de log ou temporários
+*.log
+*.tmp
+
+# Configurações locais
+.env
+*.env
+
+# Test coverage
+coverage/
+
+# Arquivos executáveis gerados manualmente (se aplicável)
+*.exe
+*.out
+*.a
+*.so
+*.dll

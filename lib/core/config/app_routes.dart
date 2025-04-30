@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:manager_app/presentation/home_page.dart';
 
 class AppRoutes {
   static final AppRoutes _singleton = AppRoutes._internal();
@@ -9,7 +10,9 @@ class AppRoutes {
 
   AppRoutes._internal();
 
-  Map<String, Widget Function(BuildContext)> getRoutes() {
-    return {HomePage.routeName: (context) => const HomePage()};
-  }
+  static const String initialRoute = HomePage.routeName;
+
+  static Map<String, Widget Function(BuildContext)> get getRoutes => {
+    HomePage.routeName: (context) => const HomePage(),
+  };
 }
