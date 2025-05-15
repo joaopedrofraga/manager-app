@@ -20,5 +20,10 @@ class AppMaterial {
     platform: TargetPlatform.windows,
     colorSchemeSeed: AppColors.primary,
     textTheme: GoogleFonts.kanitTextTheme(),
+    appBarTheme: AppBarTheme(
+      backgroundColor: AppColors.primary.withValues(blue: 180),
+      centerTitle: true,
+      toolbarHeight: 25,
+    ),
   );
 }
