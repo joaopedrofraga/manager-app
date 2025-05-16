@@ -24,6 +24,10 @@ class _MenuVendasState extends State<MenuVendas> {
               onPressed: () {},
               child: TextWidget.normal('Consultar Orçamento'),
             ),
+            MenuItemButton(
+              onPressed: () {},
+              child: TextWidget.normal('Excluir Orçamento'),
+            ),
           ],
           child: TextWidget.normal('Orçamentos'),
         ),
@@ -31,11 +35,15 @@ class _MenuVendasState extends State<MenuVendas> {
           menuChildren: [
             MenuItemButton(
               onPressed: () {},
-              child: TextWidget.normal('Criar Venda'),
+              child: TextWidget.normal('Gerar Venda'),
             ),
             MenuItemButton(
               onPressed: () {},
               child: TextWidget.normal('Consultar Venda'),
+            ),
+            MenuItemButton(
+              onPressed: () {},
+              child: TextWidget.normal('Excluir Venda'),
             ),
           ],
           child: TextWidget.normal('Vendas'),

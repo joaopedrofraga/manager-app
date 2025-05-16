@@ -56,8 +56,17 @@ class _MenuFinanceiroState extends State<MenuFinanceiro> {
           ],
           child: TextWidget.normal('Contas à Receber'),
         ),
-        MenuItemButton(
-          onPressed: () {},
+        SubmenuButton(
+          menuChildren: [
+            MenuItemButton(
+              onPressed: () {},
+              child: TextWidget.normal('Consultar Caixa'),
+            ),
+            MenuItemButton(
+              onPressed: () {},
+              child: TextWidget.normal('Lançar Valor'),
+            ),
+          ],
           child: TextWidget.normal('Fluxo de Caixa'),
         ),
       ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:manager_app/core/config/app_colors.dart';
+import 'package:manager_app/presentation/menus/cadastro/produtos/cadastro_produtos_page.dart';
 import 'package:manager_app/widgets/text_widget.dart';
 
 class MenuCadastro extends StatefulWidget {
@@ -18,7 +19,10 @@ class _MenuCadastroState extends State<MenuCadastro> {
           onPressed: () {},
           child: TextWidget.normal('Clientes/Fornecedores'),
         ),
-        MenuItemButton(onPressed: () {}, child: TextWidget.normal('Produtos')),
+        MenuItemButton(
+          onPressed: () => CadastroProdutosPage.show(context),
+          child: TextWidget.normal('Produtos'),
+        ),
         MenuItemButton(
           onPressed: () {},
           child: TextWidget.normal('Formas de Pagamento'),
