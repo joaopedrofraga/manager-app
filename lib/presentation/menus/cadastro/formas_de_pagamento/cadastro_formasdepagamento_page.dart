@@ -6,8 +6,8 @@ import 'package:manager_app/widgets/sizedbox_widget.dart';
 import 'package:manager_app/widgets/text_widget.dart';
 import 'package:manager_app/widgets/textformfield_widget.dart';
 
-class CadastroProdutosPage extends StatefulWidget {
-  const CadastroProdutosPage({super.key});
+class CadastroFormasDePagamentoPage extends StatefulWidget {
+  const CadastroFormasDePagamentoPage({super.key});
 
   static Future<void> show(BuildContext context) {
     return showDialog(
@@ -30,44 +30,39 @@ class CadastroProdutosPage extends StatefulWidget {
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            TextWidget.title('Cadastro de Produtos'),
+                            TextWidget.title('Cadastro de Formas de Pagamento'),
                             const Spacer(),
                             CloseButton(),
                           ],
                         ),
                         TextWidget.small(
-                          'Preencha os campos abaixo para cadastrar um novo produto.',
+                          'Preencha o campo abaixo para cadastrar uma nova forma de pagamento.',
                         ),
                         const SizedBoxWidget.md(),
-                        TextFormFieldWidget(
-                          controller: TextEditingController(),
-                          inputLabel: 'Código do Produto*',
-                          icon: LucideIcons.qrCode,
-                        ),
-                        const SizedBoxWidget.sm(),
-                        TextFormFieldWidget(
-                          controller: TextEditingController(),
-                          inputLabel: 'Nome do Produto*',
-                          icon: LucideIcons.shoppingBasket,
-                        ),
-                        const SizedBoxWidget.sm(),
-                        TextFormFieldWidget(
-                          controller: TextEditingController(),
-                          inputLabel: 'Valor de Venda*',
-                          icon: LucideIcons.handCoins,
-                        ),
-                        const SizedBoxWidget.sm(),
-                        TextFormFieldWidget(
-                          controller: TextEditingController(),
-                          inputLabel: 'Quantidade*',
-                          icon: LucideIcons.box,
-                        ),
-                        const SizedBoxWidget.sm(),
-                        TextFormFieldWidget(
-                          controller: TextEditingController(),
-                          inputLabel: 'Observações',
-                          maxLines: 3,
-                          icon: LucideIcons.telescope,
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Flexible(
+                              flex: 2,
+                              child: TextFormFieldWidget(
+                                controller: TextEditingController(),
+                                inputLabel: 'Descrição*',
+                                icon: LucideIcons.walletCards,
+                              ),
+                            ),
+                            const SizedBoxWidget.xxs(),
+                            Flexible(
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 25),
+                                child: CheckboxListTile(
+                                  value: true,
+                                  title: TextWidget.normal('À VISTA'),
+                                  onChanged: (valor) {},
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBoxWidget.lg(),
                         ElevatedButtonWidget(
@@ -87,10 +82,12 @@ class CadastroProdutosPage extends StatefulWidget {
   }
 
   @override
-  State<CadastroProdutosPage> createState() => _CadastroProdutosPageState();
+  State<CadastroFormasDePagamentoPage> createState() =>
+      _CadastroFormasDePagamentoPageState();
 }
 
-class _CadastroProdutosPageState extends State<CadastroProdutosPage> {
+class _CadastroFormasDePagamentoPageState
+    extends State<CadastroFormasDePagamentoPage> {
   @override
   Widget build(BuildContext context) {
     return SizedBox.shrink();
