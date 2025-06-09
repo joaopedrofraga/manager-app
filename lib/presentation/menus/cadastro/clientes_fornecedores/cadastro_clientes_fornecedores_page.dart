@@ -6,8 +6,8 @@ import 'package:manager_app/widgets/sizedbox_widget.dart';
 import 'package:manager_app/widgets/text_widget.dart';
 import 'package:manager_app/widgets/textformfield_widget.dart';
 
-class CadastroClientesPage extends StatefulWidget {
-  const CadastroClientesPage({super.key});
+class CadastroClientesFornecedoresPage extends StatefulWidget {
+  const CadastroClientesFornecedoresPage({super.key});
 
   static Future<void> show(BuildContext context) {
     return showDialog(
@@ -30,19 +30,27 @@ class CadastroClientesPage extends StatefulWidget {
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            TextWidget.title('Cadastro de Clientes'),
+                            TextWidget.title(
+                              'Cadastro de Clientes/Fornecedores',
+                            ),
                             const Spacer(),
                             CloseButton(),
                           ],
                         ),
                         TextWidget.small(
-                          'Preencha os campos abaixo para cadastrar um novo cliente.',
+                          'Preencha os campos abaixo para cadastrar um novo cliente ou fornecedor.',
                         ),
                         const SizedBoxWidget.md(),
                         TextFormFieldWidget(
                           controller: TextEditingController(),
                           inputLabel: 'Nome do Cliente*',
                           icon: LucideIcons.contact,
+                        ),
+                        const SizedBoxWidget.sm(),
+                        TextFormFieldWidget(
+                          controller: TextEditingController(),
+                          inputLabel: 'Fantasia/Apelido',
+                          icon: LucideIcons.laugh,
                         ),
                         const SizedBoxWidget.sm(),
                         Row(
@@ -153,10 +161,12 @@ class CadastroClientesPage extends StatefulWidget {
   }
 
   @override
-  State<CadastroClientesPage> createState() => _CadastroClientesPageState();
+  State<CadastroClientesFornecedoresPage> createState() =>
+      _CadastroClientesFornecedoresPageState();
 }
 
-class _CadastroClientesPageState extends State<CadastroClientesPage> {
+class _CadastroClientesFornecedoresPageState
+    extends State<CadastroClientesFornecedoresPage> {
   @override
   Widget build(BuildContext context) {
     return SizedBox.shrink();

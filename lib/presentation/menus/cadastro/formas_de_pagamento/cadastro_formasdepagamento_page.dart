@@ -39,30 +39,17 @@ class CadastroFormasDePagamentoPage extends StatefulWidget {
                           'Preencha o campo abaixo para cadastrar uma nova forma de pagamento.',
                         ),
                         const SizedBoxWidget.md(),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Flexible(
-                              flex: 2,
-                              child: TextFormFieldWidget(
-                                controller: TextEditingController(),
-                                inputLabel: 'Descrição*',
-                                icon: LucideIcons.walletCards,
-                              ),
-                            ),
-                            const SizedBoxWidget.xxs(),
-                            Flexible(
-                              flex: 1,
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 25),
-                                child: CheckboxListTile(
-                                  value: true,
-                                  title: TextWidget.normal('À VISTA'),
-                                  onChanged: (valor) {},
-                                ),
-                              ),
-                            ),
-                          ],
+                        TextFormFieldWidget(
+                          controller: TextEditingController(),
+                          inputLabel: 'Descrição*',
+                          icon: LucideIcons.walletCards,
+                          suffixWidget: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TextWidget.normal('À VISTA'),
+                              Checkbox(value: true, onChanged: (valor) {}),
+                            ],
+                          ),
                         ),
                         const SizedBoxWidget.lg(),
                         ElevatedButtonWidget(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TextFormFieldWidget extends StatelessWidget {
   final String inputLabel;
@@ -11,6 +12,7 @@ class TextFormFieldWidget extends StatelessWidget {
   final String? Function(String?)? validator;
   final int? maxLength;
   final int? maxLines;
+  final Widget? suffixWidget;
 
   const TextFormFieldWidget({
     super.key,
@@ -24,39 +26,43 @@ class TextFormFieldWidget extends StatelessWidget {
     this.validator,
     this.maxLength,
     this.maxLines = 1,
+    this.suffixWidget,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (inputLabel.isNotEmpty)
-          Text(
-            inputLabel,
-            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-          ),
-        const SizedBox(height: 4),
-        TextFormField(
-          controller: controller,
-          enabled: isEnabled,
-          obscureText: isPassword,
-          keyboardType: keyboardType,
-          maxLength: maxLength,
-          maxLines: maxLines,
-          validator: validator,
-          decoration: InputDecoration(
-            hintText: hintText,
-            prefixIcon: icon != null ? Icon(icon) : null,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 16,
-            ),
-            counterText: "",
+    return TextFormField(
+      controller: controller,
+      enabled: isEnabled,
+      obscureText: isPassword,
+      keyboardType: keyboardType,
+      maxLength: maxLength,
+      maxLines: maxLines,
+      validator: validator,
+      inputFormatters: [
+        TextInputFormatter.withFunction(
+          (oldValue, newValue) => newValue.copyWith(
+            text: newValue.text.toUpperCase(),
+            selection: newValue.selection,
           ),
         ),
       ],
+      decoration: InputDecoration(
+        label: Text(
+          inputLabel,
+          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+        ),
+        suffix: suffixWidget,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        hintText: hintText,
+        prefixIcon: icon != null ? Icon(icon) : null,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 16,
+        ),
+        counterText: "",
+      ),
     );
   }
 }

@@ -11,7 +11,8 @@ class AppColors {
 
   static const Color primary = Color(0xFF393997);
 
-  static const Color background = Color.fromARGB(255, 244, 244, 255);
+  static const Color background =
+      Colors.white; //Color.fromARGB(255, 244, 244, 255);
 
   static const Color whiteColor = Colors.white;
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:manager_app/core/config/app_colors.dart';
+import 'package:manager_app/core/config/app_images.dart';
 import 'package:manager_app/core/config/app_material.dart';
 import 'package:manager_app/core/extensions/media_query_extension.dart';
 import 'package:manager_app/main.dart';
@@ -78,7 +80,19 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Center(
-            child: Icon(Icons.manage_accounts, size: context.getWidth / 6 + 70),
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 600),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: AspectRatio(
+                    aspectRatio: 1.5,
+                    child: SvgPicture.asset(AppImages.homePage),
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),
