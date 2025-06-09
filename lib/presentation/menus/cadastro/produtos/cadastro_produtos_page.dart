@@ -53,13 +53,19 @@ class CadastroProdutosPage extends StatefulWidget {
                         const SizedBoxWidget.sm(),
                         TextFormFieldWidget(
                           controller: TextEditingController(),
+                          inputLabel: 'Valor de Custo',
+                          icon: LucideIcons.coins,
+                        ),
+                        const SizedBoxWidget.sm(),
+                        TextFormFieldWidget(
+                          controller: TextEditingController(),
                           inputLabel: 'Valor de Venda*',
                           icon: LucideIcons.handCoins,
                         ),
                         const SizedBoxWidget.sm(),
                         TextFormFieldWidget(
                           controller: TextEditingController(),
-                          inputLabel: 'Quantidade*',
+                          inputLabel: 'Estoque*',
                           icon: LucideIcons.box,
                         ),
                         const SizedBoxWidget.sm(),

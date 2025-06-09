@@ -43,7 +43,7 @@ class CadastroClientesFornecedoresPage extends StatefulWidget {
                         const SizedBoxWidget.md(),
                         TextFormFieldWidget(
                           controller: TextEditingController(),
-                          inputLabel: 'Nome do Cliente*',
+                          inputLabel: 'Nome do Cliente/Fornecedor*',
                           icon: LucideIcons.contact,
                         ),
                         const SizedBoxWidget.sm(),
