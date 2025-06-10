@@ -71,6 +71,12 @@ class CadastroProdutosPage extends StatefulWidget {
                         const SizedBoxWidget.sm(),
                         TextFormFieldWidget(
                           controller: TextEditingController(),
+                          inputLabel: 'Unidade de Medida*',
+                          icon: LucideIcons.pencilRuler,
+                        ),
+                        const SizedBoxWidget.sm(),
+                        TextFormFieldWidget(
+                          controller: TextEditingController(),
                           inputLabel: 'Observações',
                           maxLines: 3,
                           icon: LucideIcons.telescope,
