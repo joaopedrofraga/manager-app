@@ -5,4 +5,4 @@ void main() {
   runApp(const App());
 }
 
-const String versao = 'ALFA 0.0.8';
+const String versao = 'ALFA 0.0.8 (apenas para exibição)';
