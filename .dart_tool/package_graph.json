@@ -14,7 +14,8 @@
         "flutter_svg",
         "google_fonts",
         "lucide_icons_flutter",
-        "postgres"
+        "postgres",
+        "quickalert"
       ],
       "devDependencies": [
         "flutter_lints",
@@ -54,6 +55,14 @@
         "test_api",
         "vector_math",
         "vm_service"
+      ]
+    },
+    {
+      "name": "quickalert",
+      "version": "1.1.0",
+      "dependencies": [
+        "flutter",
+        "vector_math"
       ]
     },
     {
