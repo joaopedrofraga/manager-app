@@ -254,6 +254,12 @@
       "languageVersion": "3.4"
     },
     {
+      "name": "quickalert",
+      "rootUri": "file:///C:/Users/JRPDV/AppData/Local/Pub/Cache/hosted/pub.dev/quickalert-1.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "sasl_scram",
       "rootUri": "file:///C:/Users/JRPDV/AppData/Local/Pub/Cache/hosted/pub.dev/sasl_scram-0.1.1",
       "packageUri": "lib/",

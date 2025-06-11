@@ -17,4 +17,10 @@ C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/packages/
 C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/packages/lucide_icons_flutter/assets/build_font/LucideVariable-w500.ttf
 C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/packages/lucide_icons_flutter/assets/build_font/LucideVariable-w600.ttf
 C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/packages/lucide_icons_flutter/assets/lucide.ttf
+C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/packages/quickalert/assets/confirm.gif
+C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/packages/quickalert/assets/error.gif
+C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/packages/quickalert/assets/info.gif
+C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/packages/quickalert/assets/loading.gif
+C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/packages/quickalert/assets/success.gif
+C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/packages/quickalert/assets/warning.gif
 C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/shaders/ink_sparkle.frag
