@@ -50,6 +50,12 @@
       "languageVersion": "3.4"
     },
     {
+      "name": "cpf_cnpj_validator",
+      "rootUri": "file:///C:/Users/JRPDV/AppData/Local/Pub/Cache/hosted/pub.dev/cpf_cnpj_validator-2.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "crypto",
       "rootUri": "file:///C:/Users/JRPDV/AppData/Local/Pub/Cache/hosted/pub.dev/crypto-3.0.6",
       "packageUri": "lib/",

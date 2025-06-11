@@ -7,6 +7,7 @@
       "name": "manager_app",
       "version": "1.0.0+1",
       "dependencies": [
+        "cpf_cnpj_validator",
         "cupertino_icons",
         "extended_masked_text",
         "flutter",
@@ -53,6 +54,14 @@
         "test_api",
         "vector_math",
         "vm_service"
+      ]
+    },
+    {
+      "name": "cpf_cnpj_validator",
+      "version": "2.0.0",
+      "dependencies": [
+        "flutter",
+        "flutter_test"
       ]
     },
     {

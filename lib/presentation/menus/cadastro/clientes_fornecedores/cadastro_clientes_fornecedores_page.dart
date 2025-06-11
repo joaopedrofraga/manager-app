@@ -1,3 +1,5 @@
+import 'package:cpf_cnpj_validator/cnpj_validator.dart';
+import 'package:cpf_cnpj_validator/cpf_validator.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,6 +30,10 @@ class CadastroClientesFornecedoresPage extends StatefulWidget {
     final somenteLetras = FilteringTextInputFormatter.allow(
       RegExp(r'[a-zA-Z]'),
     );
+    final letrasComEspaco = FilteringTextInputFormatter.allow(
+      RegExp(r'[a-zA-Z\s]'),
+    );
+
     return showDialog(
       context: context,
       builder:
@@ -137,7 +143,7 @@ class CadastroClientesFornecedoresPage extends StatefulWidget {
                               child: TextFormFieldWidget(
                                 controller: cidadeTEC,
                                 inputLabel: 'Cidade*',
-                                inputFormatters: [somenteLetras],
+                                inputFormatters: [letrasComEspaco],
                                 icon: LucideIcons.mapPinned,
                                 maxLength: 100,
                               ),
@@ -152,7 +158,7 @@ class CadastroClientesFornecedoresPage extends StatefulWidget {
                               child: TextFormFieldWidget(
                                 controller: bairroTEC,
                                 inputLabel: 'Bairro*',
-                                inputFormatters: [somenteLetras],
+                                inputFormatters: [letrasComEspaco],
                                 icon: LucideIcons.building2,
                                 maxLength: 100,
                               ),
@@ -204,22 +210,8 @@ class CadastroClientesFornecedoresPage extends StatefulWidget {
                           width: double.infinity,
                           height: 40,
                           onPressed: () {
-                            ClienteFornecedorModel clienteFornecedor =
-                                ClienteFornecedorModel(
-                                  nome: nomeTEC.text,
-                                  fantasia: fantasiaTEC.text,
-                                  cpfCnpj: cpfCnpjTEC.text,
-                                  telefone: telefoneTEC.text,
-                                  estado: estadoTEC.text,
-                                  cep: cepTEC.text,
-                                  cidade: cidadeTEC.text,
-                                  bairro: bairroTEC.text,
-                                  endereco: enderecoTEC.text,
-                                  numero: numeroTEC.text,
-                                  complemento: complementoTEC.text,
-                                  observacoes: observacoesTEC.text,
-                                );
-                            print(clienteFornecedor.toString());
+                            if (!CNPJValidator.isValid(cpfCnpjTEC.text) ||
+                                !CPFValidator.isValid(cpfCnpjTEC.text)) {}
                           },
                         ),
                       ],
