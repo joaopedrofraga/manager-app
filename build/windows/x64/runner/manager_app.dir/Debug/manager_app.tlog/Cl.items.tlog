@@ -1,0 +1,5 @@
+C:\_Dev\manager-app\windows\runner\flutter_window.cpp;C:\_Dev\manager-app\build\windows\x64\runner\manager_app.dir\Debug\flutter_window.obj
+C:\_Dev\manager-app\windows\runner\main.cpp;C:\_Dev\manager-app\build\windows\x64\runner\manager_app.dir\Debug\main.obj
+C:\_Dev\manager-app\windows\runner\utils.cpp;C:\_Dev\manager-app\build\windows\x64\runner\manager_app.dir\Debug\utils.obj
+C:\_Dev\manager-app\windows\runner\win32_window.cpp;C:\_Dev\manager-app\build\windows\x64\runner\manager_app.dir\Debug\win32_window.obj
+C:\_Dev\manager-app\windows\flutter\generated_plugin_registrant.cc;C:\_Dev\manager-app\build\windows\x64\runner\manager_app.dir\Debug\generated_plugin_registrant.obj

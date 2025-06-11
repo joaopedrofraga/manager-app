@@ -1,4 +1,6 @@
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:manager_app/core/extensions/media_query_extension.dart';
 import 'package:manager_app/widgets/elevatedbutton_widget.dart';
@@ -10,6 +12,17 @@ class CadastroProdutosPage extends StatefulWidget {
   const CadastroProdutosPage({super.key});
 
   static Future<void> show(BuildContext context) {
+    TextEditingController codigoTEC = TextEditingController();
+    TextEditingController nomeTEC = TextEditingController();
+    MoneyMaskedTextController valorCustoTEC = MoneyMaskedTextController(
+      leftSymbol: 'R\$ ',
+    );
+    MoneyMaskedTextController valorVendaTEC = MoneyMaskedTextController(
+      leftSymbol: 'R\$ ',
+    );
+    TextEditingController estoqueTEC = TextEditingController();
+    TextEditingController unidadeMedidaTEC = TextEditingController();
+    TextEditingController observacoesTEC = TextEditingController();
     return showDialog(
       context: context,
       builder:
@@ -40,14 +53,16 @@ class CadastroProdutosPage extends StatefulWidget {
                         ),
                         const SizedBoxWidget.md(),
                         TextFormFieldWidget(
-                          controller: TextEditingController(),
+                          controller: codigoTEC,
                           inputLabel: 'Código do Produto*',
+                          maxLength: 50,
                           icon: LucideIcons.qrCode,
                         ),
                         const SizedBoxWidget.sm(),
                         TextFormFieldWidget(
-                          controller: TextEditingController(),
+                          controller: nomeTEC,
                           inputLabel: 'Nome do Produto*',
+                          maxLength: 255,
                           icon: LucideIcons.shoppingBasket,
                         ),
                         const SizedBoxWidget.sm(),
@@ -55,17 +70,23 @@ class CadastroProdutosPage extends StatefulWidget {
                           children: [
                             Expanded(
                               child: TextFormFieldWidget(
-                                controller: TextEditingController(),
+                                controller: valorCustoTEC,
                                 inputLabel: 'Valor de Custo',
                                 icon: LucideIcons.coins,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
                               ),
                             ),
                             const SizedBoxWidget.sm(),
                             Expanded(
                               child: TextFormFieldWidget(
-                                controller: TextEditingController(),
+                                controller: valorVendaTEC,
                                 inputLabel: 'Valor de Venda*',
                                 icon: LucideIcons.handCoins,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
                               ),
                             ),
                           ],
@@ -75,24 +96,28 @@ class CadastroProdutosPage extends StatefulWidget {
                           children: [
                             Expanded(
                               child: TextFormFieldWidget(
-                                controller: TextEditingController(),
+                                controller: estoqueTEC,
                                 inputLabel: 'Estoque*',
                                 icon: LucideIcons.packageOpen,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
                               ),
                             ),
                             const SizedBoxWidget.sm(),
                             Expanded(
                               child: TextFormFieldWidget(
-                                controller: TextEditingController(),
+                                controller: unidadeMedidaTEC,
                                 inputLabel: 'Unidade de Medida*',
                                 icon: LucideIcons.pencilRuler,
+                                maxLength: 5,
                               ),
                             ),
                           ],
                         ),
                         const SizedBoxWidget.sm(),
                         TextFormFieldWidget(
-                          controller: TextEditingController(),
+                          controller: observacoesTEC,
                           inputLabel: 'Observações',
                           maxLines: 3,
                           icon: LucideIcons.telescope,

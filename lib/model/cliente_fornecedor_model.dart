@@ -2,6 +2,7 @@ class ClienteFornecedorModel {
   final int? id;
   final String? nome;
   final String? fantasia;
+  final String? telefone;
   final String? cpfCnpj;
   final String? estado;
   final String? cep;
@@ -16,6 +17,7 @@ class ClienteFornecedorModel {
     this.id,
     this.nome,
     this.fantasia,
+    this.telefone,
     this.cpfCnpj,
     this.estado,
     this.cep,
@@ -31,6 +33,7 @@ class ClienteFornecedorModel {
     int? id,
     String? nome,
     String? fantasia,
+    String? telefone,
     String? cpfCnpj,
     String? estado,
     String? cep,
@@ -45,6 +48,7 @@ class ClienteFornecedorModel {
       id: id ?? this.id,
       nome: nome ?? this.nome,
       fantasia: fantasia ?? this.fantasia,
+      telefone: telefone ?? this.telefone,
       cpfCnpj: cpfCnpj ?? this.cpfCnpj,
       estado: estado ?? this.estado,
       cep: cep ?? this.cep,
@@ -62,6 +66,7 @@ class ClienteFornecedorModel {
       'id': id,
       'nome': nome,
       'fantasia': fantasia,
+      'telefone': telefone,
       'cpf_cnpj': cpfCnpj,
       'estado': estado,
       'cep': cep,
@@ -79,6 +84,7 @@ class ClienteFornecedorModel {
       id: map['id'] as int?,
       nome: map['nome'] as String?,
       fantasia: map['fantasia'] as String?,
+      telefone: map['telefone'] as String?,
       cpfCnpj: map['cpf_cnpj'] as String?,
       estado: map['estado'] as String?,
       cep: map['cep'] as String?,
@@ -93,7 +99,7 @@ class ClienteFornecedorModel {
 
   @override
   String toString() {
-    return 'ClienteFornecedorModel(id: $id, nome: $nome, cpfCnpj: $cpfCnpj, cidade: $cidade)';
+    return 'ClienteFornecedorModel(id: $id, nome: $nome, fantasia: $fantasia, telefone: $telefone, cpfCnpj: $cpfCnpj, estado: $estado, cep: $cep, cidade: $cidade, bairro: $bairro, endereco: $endereco, numero: $numero, complemento: $complemento, observacoes: $observacoes)';
   }
 
   @override
@@ -104,6 +110,7 @@ class ClienteFornecedorModel {
         other.id == id &&
         other.nome == nome &&
         other.fantasia == fantasia &&
+        other.telefone == telefone &&
         other.cpfCnpj == cpfCnpj &&
         other.estado == estado &&
         other.cep == cep &&
@@ -120,6 +127,7 @@ class ClienteFornecedorModel {
     return id.hashCode ^
         nome.hashCode ^
         fantasia.hashCode ^
+        telefone.hashCode ^
         cpfCnpj.hashCode ^
         estado.hashCode ^
         cep.hashCode ^

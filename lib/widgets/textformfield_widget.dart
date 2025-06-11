@@ -13,6 +13,7 @@ class TextFormFieldWidget extends StatelessWidget {
   final int? maxLength;
   final int? maxLines;
   final Widget? suffixWidget;
+  final List<TextInputFormatter>? inputFormatters;
 
   const TextFormFieldWidget({
     super.key,
@@ -27,6 +28,7 @@ class TextFormFieldWidget extends StatelessWidget {
     this.maxLength,
     this.maxLines = 1,
     this.suffixWidget,
+    this.inputFormatters,
   });
 
   @override
@@ -46,6 +48,7 @@ class TextFormFieldWidget extends StatelessWidget {
             selection: newValue.selection,
           ),
         ),
+        if (inputFormatters != null) ...inputFormatters!,
       ],
       decoration: InputDecoration(
         label: Text(

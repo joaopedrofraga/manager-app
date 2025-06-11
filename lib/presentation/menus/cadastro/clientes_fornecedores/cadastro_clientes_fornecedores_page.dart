@@ -1,6 +1,9 @@
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:manager_app/core/extensions/media_query_extension.dart';
+import 'package:manager_app/model/cliente_fornecedor_model.dart';
 import 'package:manager_app/widgets/elevatedbutton_widget.dart';
 import 'package:manager_app/widgets/sizedbox_widget.dart';
 import 'package:manager_app/widgets/text_widget.dart';
@@ -10,6 +13,21 @@ class CadastroClientesFornecedoresPage extends StatefulWidget {
   const CadastroClientesFornecedoresPage({super.key});
 
   static Future<void> show(BuildContext context) {
+    TextEditingController nomeTEC = TextEditingController();
+    TextEditingController fantasiaTEC = TextEditingController();
+    TextEditingController cpfCnpjTEC = TextEditingController();
+    TextEditingController estadoTEC = TextEditingController();
+    MaskedTextController cepTEC = MaskedTextController(mask: '00000-000');
+    TextEditingController cidadeTEC = TextEditingController();
+    TextEditingController bairroTEC = TextEditingController();
+    TextEditingController enderecoTEC = TextEditingController();
+    TextEditingController numeroTEC = TextEditingController();
+    TextEditingController complementoTEC = TextEditingController();
+    TextEditingController observacoesTEC = TextEditingController();
+    TextEditingController telefoneTEC = TextEditingController();
+    final somenteLetras = FilteringTextInputFormatter.allow(
+      RegExp(r'[a-zA-Z]'),
+    );
     return showDialog(
       context: context,
       builder:
@@ -42,15 +60,35 @@ class CadastroClientesFornecedoresPage extends StatefulWidget {
                         ),
                         const SizedBoxWidget.md(),
                         TextFormFieldWidget(
-                          controller: TextEditingController(),
+                          controller: nomeTEC,
                           inputLabel: 'Nome do Cliente/Fornecedor*',
                           icon: LucideIcons.contact,
+                          maxLength: 300,
                         ),
                         const SizedBoxWidget.sm(),
-                        TextFormFieldWidget(
-                          controller: TextEditingController(),
-                          inputLabel: 'Fantasia/Apelido',
-                          icon: LucideIcons.laugh,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormFieldWidget(
+                                controller: fantasiaTEC,
+                                inputLabel: 'Fantasia/Apelido',
+                                icon: LucideIcons.laugh,
+                                maxLength: 250,
+                              ),
+                            ),
+                            const SizedBoxWidget.sm(),
+                            Expanded(
+                              child: TextFormFieldWidget(
+                                controller: telefoneTEC,
+                                inputLabel: 'Telefone',
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
+                                icon: LucideIcons.phone,
+                                maxLength: 20,
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBoxWidget.sm(),
                         Row(
@@ -58,16 +96,22 @@ class CadastroClientesFornecedoresPage extends StatefulWidget {
                           children: [
                             Expanded(
                               child: TextFormFieldWidget(
-                                controller: TextEditingController(),
+                                controller: cpfCnpjTEC,
                                 inputLabel: 'CPF/CNPJ*',
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
                                 icon: LucideIcons.idCard,
+                                maxLength: 18,
                               ),
                             ),
                             const SizedBoxWidget.sm(),
                             Expanded(
                               child: TextFormFieldWidget(
-                                controller: TextEditingController(),
+                                controller: estadoTEC,
                                 inputLabel: 'Estado*',
+                                maxLength: 2,
+                                inputFormatters: [somenteLetras],
                                 icon: LucideIcons.mapPin,
                               ),
                             ),
@@ -79,17 +123,23 @@ class CadastroClientesFornecedoresPage extends StatefulWidget {
                           children: [
                             Expanded(
                               child: TextFormFieldWidget(
-                                controller: TextEditingController(),
+                                controller: cepTEC,
                                 inputLabel: 'CEP*',
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
                                 icon: LucideIcons.asterisk,
+                                maxLength: 9,
                               ),
                             ),
                             const SizedBoxWidget.sm(),
                             Expanded(
                               child: TextFormFieldWidget(
-                                controller: TextEditingController(),
+                                controller: cidadeTEC,
                                 inputLabel: 'Cidade*',
+                                inputFormatters: [somenteLetras],
                                 icon: LucideIcons.mapPinned,
+                                maxLength: 100,
                               ),
                             ),
                           ],
@@ -100,17 +150,20 @@ class CadastroClientesFornecedoresPage extends StatefulWidget {
                           children: [
                             Expanded(
                               child: TextFormFieldWidget(
-                                controller: TextEditingController(),
+                                controller: bairroTEC,
                                 inputLabel: 'Bairro*',
+                                inputFormatters: [somenteLetras],
                                 icon: LucideIcons.building2,
+                                maxLength: 100,
                               ),
                             ),
                             const SizedBoxWidget.sm(),
                             Expanded(
                               child: TextFormFieldWidget(
-                                controller: TextEditingController(),
+                                controller: enderecoTEC,
                                 inputLabel: 'Endereço*',
                                 icon: LucideIcons.locateFixed,
+                                maxLength: 255,
                               ),
                             ),
                           ],
@@ -121,24 +174,26 @@ class CadastroClientesFornecedoresPage extends StatefulWidget {
                           children: [
                             Expanded(
                               child: TextFormFieldWidget(
-                                controller: TextEditingController(),
+                                controller: numeroTEC,
                                 inputLabel: 'Número*',
                                 icon: LucideIcons.house,
+                                maxLength: 20,
                               ),
                             ),
                             const SizedBoxWidget.sm(),
                             Expanded(
                               child: TextFormFieldWidget(
-                                controller: TextEditingController(),
+                                controller: complementoTEC,
                                 inputLabel: 'Complemento',
                                 icon: LucideIcons.circleEllipsis,
+                                maxLength: 100,
                               ),
                             ),
                           ],
                         ),
                         const SizedBoxWidget.sm(),
                         TextFormFieldWidget(
-                          controller: TextEditingController(),
+                          controller: observacoesTEC,
                           inputLabel: 'Observações',
                           maxLines: 3,
                           icon: LucideIcons.telescope,
@@ -148,7 +203,24 @@ class CadastroClientesFornecedoresPage extends StatefulWidget {
                           label: 'Cadastrar',
                           width: double.infinity,
                           height: 40,
-                          onPressed: () {},
+                          onPressed: () {
+                            ClienteFornecedorModel clienteFornecedor =
+                                ClienteFornecedorModel(
+                                  nome: nomeTEC.text,
+                                  fantasia: fantasiaTEC.text,
+                                  cpfCnpj: cpfCnpjTEC.text,
+                                  telefone: telefoneTEC.text,
+                                  estado: estadoTEC.text,
+                                  cep: cepTEC.text,
+                                  cidade: cidadeTEC.text,
+                                  bairro: bairroTEC.text,
+                                  endereco: enderecoTEC.text,
+                                  numero: numeroTEC.text,
+                                  complemento: complementoTEC.text,
+                                  observacoes: observacoesTEC.text,
+                                );
+                            print(clienteFornecedor.toString());
+                          },
                         ),
                       ],
                     ),

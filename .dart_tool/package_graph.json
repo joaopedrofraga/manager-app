@@ -8,6 +8,7 @@
       "version": "1.0.0+1",
       "dependencies": [
         "cupertino_icons",
+        "extended_masked_text",
         "flutter",
         "flutter_svg",
         "google_fonts",
@@ -52,6 +53,13 @@
         "test_api",
         "vector_math",
         "vm_service"
+      ]
+    },
+    {
+      "name": "extended_masked_text",
+      "version": "3.0.1",
+      "dependencies": [
+        "flutter"
       ]
     },
     {
