@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:manager_app/core/config/app_colors.dart';
+import 'package:manager_app/core/const/const.dart';
 import 'package:manager_app/widgets/text_widget.dart';
 
 class MenuUtilitarios extends StatefulWidget {
@@ -12,18 +13,25 @@ class MenuUtilitarios extends StatefulWidget {
 class _MenuUtilitariosState extends State<MenuUtilitarios> {
   @override
   Widget build(BuildContext context) {
-    return SubmenuButton(
-      menuChildren: [
-        MenuItemButton(
-          onPressed: () {},
-          child: TextWidget.normal('Ajuste de Estoque'),
+    return SizedBox(
+      width: Const.tamanhoMenu,
+      child: SubmenuButton(
+        menuChildren: [
+          MenuItemButton(
+            onPressed: () {},
+            child: TextWidget.normal('Ajuste de Estoque'),
+          ),
+          MenuItemButton(
+            onPressed: () {},
+            child: TextWidget.normal('Copiar Script do Banco de Dados'),
+          ),
+        ],
+        child: TextWidget.normal(
+          'Utilitários',
+          color: AppColors.whiteColor,
+          textAlign: TextAlign.center,
         ),
-        MenuItemButton(
-          onPressed: () {},
-          child: TextWidget.normal('Copiar Script do Banco de Dados'),
-        ),
-      ],
-      child: TextWidget.normal('Utilitários', color: AppColors.whiteColor),
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:manager_app/core/config/app_colors.dart';
+import 'package:manager_app/core/const/const.dart';
 import 'package:manager_app/widgets/text_widget.dart';
 
 class MenuVendas extends StatefulWidget {
@@ -12,44 +13,51 @@ class MenuVendas extends StatefulWidget {
 class _MenuVendasState extends State<MenuVendas> {
   @override
   Widget build(BuildContext context) {
-    return SubmenuButton(
-      menuChildren: [
-        SubmenuButton(
-          menuChildren: [
-            MenuItemButton(
-              onPressed: () {},
-              child: TextWidget.normal('Criar Orçamento'),
-            ),
-            MenuItemButton(
-              onPressed: () {},
-              child: TextWidget.normal('Consultar Orçamento'),
-            ),
-            MenuItemButton(
-              onPressed: () {},
-              child: TextWidget.normal('Excluir Orçamento'),
-            ),
-          ],
-          child: TextWidget.normal('Orçamentos'),
+    return SizedBox(
+      width: Const.tamanhoMenu,
+      child: SubmenuButton(
+        menuChildren: [
+          SubmenuButton(
+            menuChildren: [
+              MenuItemButton(
+                onPressed: () {},
+                child: TextWidget.normal('Criar Orçamento'),
+              ),
+              MenuItemButton(
+                onPressed: () {},
+                child: TextWidget.normal('Consultar Orçamento'),
+              ),
+              MenuItemButton(
+                onPressed: () {},
+                child: TextWidget.normal('Excluir Orçamento'),
+              ),
+            ],
+            child: TextWidget.normal('Orçamentos'),
+          ),
+          SubmenuButton(
+            menuChildren: [
+              MenuItemButton(
+                onPressed: () {},
+                child: TextWidget.normal('Gerar Venda'),
+              ),
+              MenuItemButton(
+                onPressed: () {},
+                child: TextWidget.normal('Consultar Venda'),
+              ),
+              MenuItemButton(
+                onPressed: () {},
+                child: TextWidget.normal('Excluir Venda'),
+              ),
+            ],
+            child: TextWidget.normal('Vendas'),
+          ),
+        ],
+        child: TextWidget.normal(
+          'Vendas',
+          color: AppColors.whiteColor,
+          textAlign: TextAlign.center,
         ),
-        SubmenuButton(
-          menuChildren: [
-            MenuItemButton(
-              onPressed: () {},
-              child: TextWidget.normal('Gerar Venda'),
-            ),
-            MenuItemButton(
-              onPressed: () {},
-              child: TextWidget.normal('Consultar Venda'),
-            ),
-            MenuItemButton(
-              onPressed: () {},
-              child: TextWidget.normal('Excluir Venda'),
-            ),
-          ],
-          child: TextWidget.normal('Vendas'),
-        ),
-      ],
-      child: TextWidget.normal('Vendas', color: AppColors.whiteColor),
+      ),
     );
   }
 }

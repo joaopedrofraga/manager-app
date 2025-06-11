@@ -51,28 +51,44 @@ class CadastroProdutosPage extends StatefulWidget {
                           icon: LucideIcons.shoppingBasket,
                         ),
                         const SizedBoxWidget.sm(),
-                        TextFormFieldWidget(
-                          controller: TextEditingController(),
-                          inputLabel: 'Valor de Custo',
-                          icon: LucideIcons.coins,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormFieldWidget(
+                                controller: TextEditingController(),
+                                inputLabel: 'Valor de Custo',
+                                icon: LucideIcons.coins,
+                              ),
+                            ),
+                            const SizedBoxWidget.sm(),
+                            Expanded(
+                              child: TextFormFieldWidget(
+                                controller: TextEditingController(),
+                                inputLabel: 'Valor de Venda*',
+                                icon: LucideIcons.handCoins,
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBoxWidget.sm(),
-                        TextFormFieldWidget(
-                          controller: TextEditingController(),
-                          inputLabel: 'Valor de Venda*',
-                          icon: LucideIcons.handCoins,
-                        ),
-                        const SizedBoxWidget.sm(),
-                        TextFormFieldWidget(
-                          controller: TextEditingController(),
-                          inputLabel: 'Estoque*',
-                          icon: LucideIcons.box,
-                        ),
-                        const SizedBoxWidget.sm(),
-                        TextFormFieldWidget(
-                          controller: TextEditingController(),
-                          inputLabel: 'Unidade de Medida*',
-                          icon: LucideIcons.pencilRuler,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormFieldWidget(
+                                controller: TextEditingController(),
+                                inputLabel: 'Estoque*',
+                                icon: LucideIcons.packageOpen,
+                              ),
+                            ),
+                            const SizedBoxWidget.sm(),
+                            Expanded(
+                              child: TextFormFieldWidget(
+                                controller: TextEditingController(),
+                                inputLabel: 'Unidade de Medida*',
+                                icon: LucideIcons.pencilRuler,
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBoxWidget.sm(),
                         TextFormFieldWidget(
