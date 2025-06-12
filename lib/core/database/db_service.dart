@@ -30,17 +30,14 @@ class DbService {
         ),
         settings: ConnectionSettings(sslMode: SslMode.disable),
       );
-      print('✅ Conectado ao banco de dados com sucesso');
     } catch (e) {
-      print('❌ Erro ao conectar: $e');
       throw Exception('Erro ao conectar ao banco de dados: $e');
     }
   }
 
-  Future<void> close() async {
-    if (_connection != null && _connection!.isOpen) {
-      await _connection!.close();
-      print('🔌 Conexão encerrada');
-    }
-  }
+  // Future<void> close() async {
+  //   if (_connection != null && _connection!.isOpen) {
+  //     await _connection!.close();
+  //   }
+  // }
 }

@@ -12,6 +12,7 @@ class ClienteFornecedorModel {
   final String? numero;
   final String? complemento;
   final String? observacoes;
+  final bool? ativo;
 
   const ClienteFornecedorModel({
     this.id,
@@ -27,6 +28,7 @@ class ClienteFornecedorModel {
     this.numero,
     this.complemento,
     this.observacoes,
+    this.ativo = true,
   });
 
   ClienteFornecedorModel copyWith({
@@ -43,6 +45,7 @@ class ClienteFornecedorModel {
     String? numero,
     String? complemento,
     String? observacoes,
+    bool? ativo,
   }) {
     return ClienteFornecedorModel(
       id: id ?? this.id,
@@ -58,6 +61,7 @@ class ClienteFornecedorModel {
       numero: numero ?? this.numero,
       complemento: complemento ?? this.complemento,
       observacoes: observacoes ?? this.observacoes,
+      ativo: ativo ?? this.ativo,
     );
   }
 
@@ -76,6 +80,7 @@ class ClienteFornecedorModel {
       'numero': numero,
       'complemento': complemento,
       'observacoes': observacoes,
+      'ativo': ativo,
     };
   }
 
@@ -94,12 +99,13 @@ class ClienteFornecedorModel {
       numero: map['numero'] as String?,
       complemento: map['complemento'] as String?,
       observacoes: map['observacoes'] as String?,
+      ativo: map['ativo'] as bool?,
     );
   }
 
   @override
   String toString() {
-    return 'ClienteFornecedorModel(id: $id, nome: $nome, fantasia: $fantasia, telefone: $telefone, cpfCnpj: $cpfCnpj, estado: $estado, cep: $cep, cidade: $cidade, bairro: $bairro, endereco: $endereco, numero: $numero, complemento: $complemento, observacoes: $observacoes)';
+    return 'ClienteFornecedorModel(id: $id, nome: $nome, fantasia: $fantasia, telefone: $telefone, cpfCnpj: $cpfCnpj, estado: $estado, cep: $cep, cidade: $cidade, bairro: $bairro, endereco: $endereco, numero: $numero, complemento: $complemento, observacoes: $observacoes, ativo: $ativo)';
   }
 
   @override
@@ -119,7 +125,8 @@ class ClienteFornecedorModel {
         other.endereco == endereco &&
         other.numero == numero &&
         other.complemento == complemento &&
-        other.observacoes == observacoes;
+        other.observacoes == observacoes &&
+        other.ativo == ativo;
   }
 
   @override
@@ -136,6 +143,7 @@ class ClienteFornecedorModel {
         endereco.hashCode ^
         numero.hashCode ^
         complemento.hashCode ^
-        observacoes.hashCode;
+        observacoes.hashCode ^
+        ativo.hashCode;
   }
 }
