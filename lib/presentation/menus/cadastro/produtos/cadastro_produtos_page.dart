@@ -63,8 +63,8 @@ class _CadastroProdutosPageState extends State<CadastroProdutosPage> {
   }
 
   Future<void> cadastrarProduto() async {
-    final db = await DbService().connection;
     try {
+      final db = await DbService().connection;
       await db.execute(
         Sql.named('''
           INSERT INTO produtos (

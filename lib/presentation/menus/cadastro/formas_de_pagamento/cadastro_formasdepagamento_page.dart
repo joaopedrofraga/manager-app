@@ -46,8 +46,8 @@ class _CadastroFormasDePagamentoPageState
   }
 
   Future<void> cadastrarFormaDePagamento() async {
-    final db = await DbService().connection;
     try {
+      final db = await DbService().connection;
       await db.execute(
         Sql.named(
           'INSERT INTO formas_pagamento (descricao, a_vista) VALUES (@descricao, @aVista)',

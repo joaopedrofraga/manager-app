@@ -88,8 +88,8 @@ class _CadastroClientesFornecedoresPageState
   }
 
   Future<void> cadastrarClienteFornecedor() async {
-    final db = await DbService().connection;
     try {
+      final db = await DbService().connection;
       await db.execute(
         Sql.named('''
         INSERT INTO clientes_fornecedores (
