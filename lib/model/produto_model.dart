@@ -7,6 +7,7 @@ class ProdutosModel {
   final double? estoque;
   final String? unidade;
   final String? observacoes;
+  final bool? ativo;
 
   const ProdutosModel({
     this.id,
@@ -17,6 +18,7 @@ class ProdutosModel {
     this.estoque,
     this.unidade,
     this.observacoes,
+    this.ativo = true,
   });
 
   ProdutosModel copyWith({
@@ -28,6 +30,7 @@ class ProdutosModel {
     double? estoque,
     String? unidade,
     String? observacoes,
+    bool? ativo,
   }) {
     return ProdutosModel(
       id: id ?? this.id,
@@ -38,6 +41,7 @@ class ProdutosModel {
       estoque: estoque ?? this.estoque,
       unidade: unidade ?? this.unidade,
       observacoes: observacoes ?? this.observacoes,
+      ativo: ativo ?? this.ativo,
     );
   }
 
@@ -51,6 +55,7 @@ class ProdutosModel {
       'estoque': estoque,
       'unidade': unidade,
       'observacoes': observacoes,
+      'ativo': ativo,
     };
   }
 
@@ -64,12 +69,13 @@ class ProdutosModel {
       estoque: (map['estoque'] as num?)?.toDouble(),
       unidade: map['unidade'] as String?,
       observacoes: map['observacoes'] as String?,
+      ativo: map['ativo'] as bool?,
     );
   }
 
   @override
   String toString() {
-    return 'ProdutosModel(id: $id, descricao: $descricao, venda: $venda, estoque: $estoque $unidade)';
+    return 'ProdutosModel(id: $id, descricao: $descricao, venda: $venda, estoque: $estoque $unidade, ativo: $ativo)';
   }
 
   @override
@@ -84,7 +90,8 @@ class ProdutosModel {
         other.venda == venda &&
         other.estoque == estoque &&
         other.unidade == unidade &&
-        other.observacoes == observacoes;
+        other.observacoes == observacoes &&
+        other.ativo == ativo;
   }
 
   @override
@@ -96,6 +103,7 @@ class ProdutosModel {
         venda.hashCode ^
         estoque.hashCode ^
         unidade.hashCode ^
-        observacoes.hashCode;
+        observacoes.hashCode ^
+        ativo.hashCode;
   }
 }
