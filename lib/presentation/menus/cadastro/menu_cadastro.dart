@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:manager_app/core/config/app_colors.dart';
 import 'package:manager_app/core/const/const.dart';
 import 'package:manager_app/presentation/menus/cadastro/clientes_fornecedores/cadastro_clientes_fornecedores_page.dart';
+import 'package:manager_app/presentation/menus/cadastro/clientes_fornecedores/consulta_clientes_fornecedores_page.dart';
 import 'package:manager_app/presentation/menus/cadastro/formas_de_pagamento/cadastro_formasdepagamento_page.dart';
 import 'package:manager_app/presentation/menus/cadastro/produtos/cadastro_produtos_page.dart';
 import 'package:manager_app/widgets/text_widget.dart';
@@ -27,7 +28,7 @@ class _MenuCadastroState extends State<MenuCadastro> {
                 child: TextWidget.normal('Cadastrar Cliente/Fornecedor'),
               ),
               MenuItemButton(
-                onPressed: () {},
+                onPressed: () => ConsultaClientesFornecedoresPage.show(context),
                 child: TextWidget.normal('Consultar Clientes/Fornecedores'),
               ),
             ],
