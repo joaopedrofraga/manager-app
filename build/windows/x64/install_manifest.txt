@@ -2,8 +2,10 @@ C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/icudtl.dat
 C:/_Dev/manager-app/build/windows/x64/runner/Debug/flutter_windows.dll
 C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/AssetManifest.bin
 C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/AssetManifest.json
+C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/empty.svg
 C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/home_page.svg
 C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/home_page2.svg
+C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/loading.svg
 C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/FontManifest.json
 C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/fonts/MaterialIcons-Regular.otf
 C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/kernel_blob.bin

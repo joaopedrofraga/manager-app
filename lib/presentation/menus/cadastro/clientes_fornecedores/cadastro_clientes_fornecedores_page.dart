@@ -6,15 +6,14 @@ import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:manager_app/core/config/app_colors.dart';
 import 'package:manager_app/core/database/db_service.dart';
 import 'package:manager_app/core/extensions/media_query_extension.dart';
 import 'package:manager_app/widgets/elevatedbutton_widget.dart';
+import 'package:manager_app/widgets/quick_dialog_widget.dart';
 import 'package:manager_app/widgets/sizedbox_widget.dart';
 import 'package:manager_app/widgets/text_widget.dart';
 import 'package:manager_app/widgets/textformfield_widget.dart';
 import 'package:postgres/postgres.dart';
-import 'package:quickalert/quickalert.dart';
 
 class CadastroClientesFornecedoresPage extends StatefulWidget {
   const CadastroClientesFornecedoresPage({super.key});
@@ -48,6 +47,9 @@ class _CadastroClientesFornecedoresPageState
   final somenteLetras = FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'));
   final letrasComEspaco = FilteringTextInputFormatter.allow(
     RegExp(r'[a-zA-Z\s]'),
+  );
+  final cpfCnpjFormatter = FilteringTextInputFormatter.allow(
+    RegExp(r'[0-9.\-\/]'),
   );
 
   @override
@@ -119,37 +121,26 @@ class _CadastroClientesFornecedoresPageState
     } catch (e) {
       if (e is UniqueViolationException) {
         if (e.code == '23505') {
-          QuickAlert.show(
+          await QuickDialogWidget().erroMsg(
             context: context,
-            width: 300,
-            confirmBtnText: 'Voltar ao Cadastro',
-            confirmBtnColor: AppColors.primary,
-            type: QuickAlertType.error,
-            title: 'ERRO!',
-            text: 'CPF/CNPJ de Cliente/Fornecedor já cadastrado no sistema.',
+            texto: 'CPF/CNPJ de Cliente/Fornecedor já cadastrado no sistema.',
+            textoBotao: 'Voltar ao Cadastro',
           );
           return;
         }
       }
-      QuickAlert.show(
+      await QuickDialogWidget().erroMsg(
         context: context,
-        width: 300,
-        confirmBtnText: 'Voltar ao Cadastro',
-        confirmBtnColor: AppColors.primary,
-        type: QuickAlertType.error,
-        title: 'ERRO!',
-        text: 'Erro ao cadastrar cliente/fornecedor: $e',
+        texto: 'Erro ao cadastrar cliente/fornecedor: $e',
+        textoBotao: 'Voltar ao Cadastro',
       );
       return;
     }
-    await QuickAlert.show(
+
+    await QuickDialogWidget().sucessoMsg(
       context: context,
-      width: 300,
-      confirmBtnText: 'Finalizar',
-      confirmBtnColor: AppColors.primary,
-      type: QuickAlertType.success,
-      title: 'SUCESSO!',
-      text: 'Cliente/Fornecedor cadastrado no sistema com sucesso.',
+      texto: 'Cliente/Fornecedor cadastrado no sistema com sucesso.',
+      textoBotao: 'Finalizar',
     );
     Navigator.pop(context);
   }
@@ -219,9 +210,7 @@ class _CadastroClientesFornecedoresPageState
                         child: TextFormFieldWidget(
                           controller: cpfCnpjTEC,
                           inputLabel: 'CPF/CNPJ*',
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
+                          inputFormatters: [cpfCnpjFormatter],
                           icon: LucideIcons.idCard,
                           maxLength: 18,
                         ),
@@ -326,27 +315,19 @@ class _CadastroClientesFornecedoresPageState
                     height: 40,
                     onPressed: () async {
                       if (validarCamposPreenchidos()) {
-                        QuickAlert.show(
+                        await QuickDialogWidget().erroMsg(
                           context: context,
-                          width: 300,
-                          confirmBtnText: 'Voltar ao Cadastro',
-                          confirmBtnColor: AppColors.primary,
-                          type: QuickAlertType.error,
-                          title: 'ERRO!',
-                          text:
+                          texto:
                               'Existem campos obrigatórios(*) não preenchidos - insira os dados faltantes para finalizar o cadastro.',
+                          textoBotao: 'Voltar ao Cadastro',
                         );
                         return;
                       } else if (!CNPJValidator.isValid(cpfCnpjTEC.text) &&
                           !CPFValidator.isValid(cpfCnpjTEC.text)) {
-                        QuickAlert.show(
+                        await QuickDialogWidget().erroMsg(
                           context: context,
-                          width: 300,
-                          confirmBtnText: 'Voltar ao Cadastro',
-                          confirmBtnColor: AppColors.primary,
-                          type: QuickAlertType.error,
-                          title: 'ERRO!',
-                          text: 'CPF ou CNPJ inválido.',
+                          texto: 'CPF ou CNPJ inválido.',
+                          textoBotao: 'Voltar ao Cadastro',
                         );
                         return;
                       }

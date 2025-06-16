@@ -14,6 +14,7 @@ class TextFormFieldWidget extends StatelessWidget {
   final int? maxLines;
   final Widget? suffixWidget;
   final List<TextInputFormatter>? inputFormatters;
+  final Function(String)? onChanged;
 
   const TextFormFieldWidget({
     super.key,
@@ -29,11 +30,13 @@ class TextFormFieldWidget extends StatelessWidget {
     this.maxLines = 1,
     this.suffixWidget,
     this.inputFormatters,
+    this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: onChanged,
       controller: controller,
       enabled: isEnabled,
       obscureText: isPassword,

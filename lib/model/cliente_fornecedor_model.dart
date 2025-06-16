@@ -65,6 +65,10 @@ class ClienteFornecedorModel {
     );
   }
 
+  String getEnderecoFormatado() {
+    return '$endereco, $numero${complemento != '' ? ' - $complemento' : ''}, $bairro, $cidade - $estado, CEP: $cep';
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
