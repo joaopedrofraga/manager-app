@@ -45,6 +45,16 @@ class ProdutosModel {
     );
   }
 
+  String getVendaFormatada() {
+    if (venda == null) return 'R\$ 0,00';
+    return 'R\$ ${venda!.toStringAsFixed(2).replaceAll('.', ',')}';
+  }
+
+  String getCustoFormatado() {
+    if (custo == null) return 'R\$ 0,00';
+    return 'R\$ ${custo!.toStringAsFixed(2).replaceAll('.', ',')}';
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -64,9 +74,9 @@ class ProdutosModel {
       id: map['id'] as int?,
       codigo: map['codigo'] as String?,
       descricao: map['descricao'] as String?,
-      custo: (map['custo'] as num?)?.toDouble(),
-      venda: (map['venda'] as num?)?.toDouble(),
-      estoque: (map['estoque'] as num?)?.toDouble(),
+      custo: double.parse(map['custo']),
+      venda: double.parse(map['venda']),
+      estoque: double.parse(map['estoque']),
       unidade: map['unidade'] as String?,
       observacoes: map['observacoes'] as String?,
       ativo: map['ativo'] as bool?,

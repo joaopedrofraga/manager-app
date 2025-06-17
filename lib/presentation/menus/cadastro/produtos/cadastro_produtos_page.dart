@@ -7,6 +7,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:manager_app/core/config/app_colors.dart';
 import 'package:manager_app/core/database/db_service.dart';
 import 'package:manager_app/core/extensions/media_query_extension.dart';
+import 'package:manager_app/core/util/filtros_text_form_field.dart';
 import 'package:manager_app/widgets/elevatedbutton_widget.dart';
 import 'package:manager_app/widgets/sizedbox_widget.dart';
 import 'package:manager_app/widgets/text_widget.dart';
@@ -194,9 +195,7 @@ class _CadastroProdutosPageState extends State<CadastroProdutosPage> {
                           controller: estoqueTEC,
                           inputLabel: 'Estoque*',
                           icon: LucideIcons.packageOpen,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
+                          inputFormatters: [filtroNumerosComVirgula],
                         ),
                       ),
                       const SizedBoxWidget.sm(),

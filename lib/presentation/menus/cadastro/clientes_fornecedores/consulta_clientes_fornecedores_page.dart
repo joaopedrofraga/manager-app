@@ -6,12 +6,16 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:manager_app/core/config/app_colors.dart';
 import 'package:manager_app/core/database/db_service.dart';
 import 'package:manager_app/core/extensions/media_query_extension.dart';
+import 'package:manager_app/core/util/filtros_text_form_field.dart';
+import 'package:manager_app/core/util/formatar_cpf_cnpj.dart';
 import 'package:manager_app/model/cliente_fornecedor_model.dart';
 import 'package:manager_app/presentation/menus/cadastro/clientes_fornecedores/visualizar_alterar_cliente_fornecedor_page.dart';
 import 'package:manager_app/widgets/loading_widget.dart';
+import 'package:manager_app/widgets/quick_dialog_widget.dart';
 import 'package:manager_app/widgets/sizedbox_widget.dart';
 import 'package:manager_app/widgets/text_widget.dart';
 import 'package:manager_app/widgets/textformfield_widget.dart';
+import 'package:postgres/postgres.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
@@ -77,6 +81,88 @@ class _ConsultaClientesFornecedoresPageState
     });
   }
 
+  void reativarCadastro() {
+    TextEditingController cpfCnpjController = TextEditingController();
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: Row(
+              children: [
+                TextWidget.title('Reativar Cadastro'),
+                const Spacer(),
+                const CloseButton(),
+              ],
+            ),
+            content: SizedBox(
+              width: 300,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextFormFieldWidget(
+                    controller: cpfCnpjController,
+                    inputLabel: 'Insira o CPF/CNPJ do cadastro',
+                    inputFormatters: [filtroSomenteCaracteresCpfCnpj],
+                    icon: LucideIcons.idCard,
+                    maxLength: 18,
+                  ),
+                  const SizedBoxWidget.lg(),
+                  SizedBox(
+                    height: 40,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        try {
+                          final db = await DbService().connection;
+                          await db.execute(
+                            Sql.named(
+                              'UPDATE clientes_fornecedores SET ativo = true WHERE cpf_cnpj = @cpfCnpj',
+                            ),
+                            parameters: {
+                              'cpfCnpj': formatarCpfCnpj(
+                                cpfCnpjController.text
+                                    .replaceAll('.', '')
+                                    .replaceAll('-', '')
+                                    .replaceAll('/', ''),
+                              ),
+                            },
+                          );
+                          Navigator.pop(context);
+                          //Navigator.pop(context);
+
+                          await QuickDialogWidget().sucessoMsg(
+                            context: context,
+                            texto: 'Cadastro reativado com sucesso.',
+                            textoBotao: 'Finalizar',
+                          );
+                        } catch (e) {
+                          await QuickDialogWidget().erroMsg(
+                            context: context,
+                            texto: 'Erro ao reativar o cadastro: $e',
+                            textoBotao: 'Voltar ao Cadastro',
+                          );
+                        }
+                      },
+                      child: TextWidget.bold(
+                        'Confirmar',
+                        color: AppColors.background,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+    );
+  }
+
   @override
   void initState() {
     clientesFornecedoresFuture = buscarClientesFornecedores();
@@ -104,6 +190,12 @@ class _ConsultaClientesFornecedoresPageState
                     children: [
                       TextWidget.title('Consulta de Cadastros'),
                       const Spacer(),
+                      IconButton(
+                        onPressed: () => reativarCadastro(),
+                        tooltip: 'Reativar Cadastro',
+                        icon: Icon(Icons.restore_from_trash),
+                      ),
+                      const SizedBoxWidget.xs(),
                       CloseButton(),
                     ],
                   ),

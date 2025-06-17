@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:manager_app/core/database/db_service.dart';
 import 'package:manager_app/core/extensions/media_query_extension.dart';
+import 'package:manager_app/core/util/filtros_text_form_field.dart';
 import 'package:manager_app/widgets/elevatedbutton_widget.dart';
 import 'package:manager_app/widgets/quick_dialog_widget.dart';
 import 'package:manager_app/widgets/sizedbox_widget.dart';
@@ -44,13 +45,6 @@ class _CadastroClientesFornecedoresPageState
   TextEditingController complementoTEC = TextEditingController();
   TextEditingController observacoesTEC = TextEditingController();
   TextEditingController telefoneTEC = TextEditingController();
-  final somenteLetras = FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'));
-  final letrasComEspaco = FilteringTextInputFormatter.allow(
-    RegExp(r'[a-zA-Z\s]'),
-  );
-  final cpfCnpjFormatter = FilteringTextInputFormatter.allow(
-    RegExp(r'[0-9.\-\/]'),
-  );
 
   @override
   void dispose() {
@@ -210,7 +204,7 @@ class _CadastroClientesFornecedoresPageState
                         child: TextFormFieldWidget(
                           controller: cpfCnpjTEC,
                           inputLabel: 'CPF/CNPJ*',
-                          inputFormatters: [cpfCnpjFormatter],
+                          inputFormatters: [filtroSomenteCaracteresCpfCnpj],
                           icon: LucideIcons.idCard,
                           maxLength: 18,
                         ),
@@ -221,7 +215,7 @@ class _CadastroClientesFornecedoresPageState
                           controller: estadoTEC,
                           inputLabel: 'Estado*',
                           maxLength: 2,
-                          inputFormatters: [somenteLetras],
+                          inputFormatters: [filtroSomenteLetras],
                           icon: LucideIcons.mapPin,
                         ),
                       ),
@@ -247,7 +241,7 @@ class _CadastroClientesFornecedoresPageState
                         child: TextFormFieldWidget(
                           controller: cidadeTEC,
                           inputLabel: 'Cidade*',
-                          inputFormatters: [letrasComEspaco],
+                          inputFormatters: [filtroSomenteLetrasComEspaco],
                           icon: LucideIcons.mapPinned,
                           maxLength: 100,
                         ),
@@ -262,7 +256,7 @@ class _CadastroClientesFornecedoresPageState
                         child: TextFormFieldWidget(
                           controller: bairroTEC,
                           inputLabel: 'Bairro*',
-                          inputFormatters: [letrasComEspaco],
+                          inputFormatters: [filtroSomenteLetrasComEspaco],
                           icon: LucideIcons.building2,
                           maxLength: 100,
                         ),

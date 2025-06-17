@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:manager_app/core/database/db_service.dart';
 import 'package:manager_app/core/extensions/media_query_extension.dart';
+import 'package:manager_app/core/util/filtros_text_form_field.dart';
+import 'package:manager_app/core/util/formatar_cpf_cnpj.dart';
 import 'package:manager_app/model/cliente_fornecedor_model.dart';
 import 'package:manager_app/widgets/elevatedbutton_widget.dart';
 import 'package:manager_app/widgets/quick_dialog_widget.dart';
@@ -56,12 +58,6 @@ class _VisualizarAlterarClienteFornecedoresPageState
   late final TextEditingController observacoesTEC;
   late final TextEditingController telefoneTEC;
 
-  final somenteLetras = FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'));
-  final letrasComEspaco = RegExp(r'[a-zA-Z\s]');
-  final cpfCnpjFormatter = FilteringTextInputFormatter.allow(
-    RegExp(r'[0-9.\-\/]'),
-  );
-
   @override
   void initState() {
     super.initState();
@@ -105,15 +101,6 @@ class _VisualizarAlterarClienteFornecedoresPageState
         bairroTEC.text.isEmpty ||
         enderecoTEC.text.isEmpty ||
         numeroTEC.text.isEmpty;
-  }
-
-  String formatarCpfCnpj(String cpfCnpj) {
-    if (CNPJValidator.isValid(cpfCnpj)) {
-      return CNPJValidator.format(cpfCnpj);
-    } else if (CPFValidator.isValid(cpfCnpj)) {
-      return CPFValidator.format(cpfCnpj);
-    }
-    return cpfCnpj;
   }
 
   Future<void> _handleAlterar() async {
@@ -248,9 +235,7 @@ class _VisualizarAlterarClienteFornecedoresPageState
                     children: [
                       TextWidget.title('Alterar Cadastro'),
                       const Spacer(),
-                      CloseButton(
-                        onPressed: () => Navigator.pop(context, false),
-                      ),
+                      CloseButton(),
                     ],
                   ),
                   TextWidget.small(
@@ -293,7 +278,7 @@ class _VisualizarAlterarClienteFornecedoresPageState
                         child: TextFormFieldWidget(
                           controller: cpfCnpjTEC,
                           inputLabel: 'CPF/CNPJ*',
-                          inputFormatters: [cpfCnpjFormatter],
+                          inputFormatters: [filtroSomenteCaracteresCpfCnpj],
                           icon: LucideIcons.idCard,
                           maxLength: 18,
                         ),
@@ -304,7 +289,7 @@ class _VisualizarAlterarClienteFornecedoresPageState
                           controller: estadoTEC,
                           inputLabel: 'Estado*',
                           maxLength: 2,
-                          inputFormatters: [somenteLetras],
+                          inputFormatters: [filtroSomenteLetras],
                           icon: LucideIcons.mapPin,
                         ),
                       ),
@@ -327,9 +312,7 @@ class _VisualizarAlterarClienteFornecedoresPageState
                         child: TextFormFieldWidget(
                           controller: cidadeTEC,
                           inputLabel: 'Cidade*',
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(letrasComEspaco),
-                          ],
+                          inputFormatters: [filtroSomenteLetrasComEspaco],
                           icon: LucideIcons.mapPinned,
                           maxLength: 100,
                         ),
@@ -344,9 +327,7 @@ class _VisualizarAlterarClienteFornecedoresPageState
                         child: TextFormFieldWidget(
                           controller: bairroTEC,
                           inputLabel: 'Bairro*',
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(letrasComEspaco),
-                          ],
+                          inputFormatters: [filtroSomenteLetrasComEspaco],
                           icon: LucideIcons.building2,
                           maxLength: 100,
                         ),

@@ -5,6 +5,7 @@ import 'package:manager_app/presentation/menus/cadastro/clientes_fornecedores/ca
 import 'package:manager_app/presentation/menus/cadastro/clientes_fornecedores/consulta_clientes_fornecedores_page.dart';
 import 'package:manager_app/presentation/menus/cadastro/formas_de_pagamento/cadastro_formasdepagamento_page.dart';
 import 'package:manager_app/presentation/menus/cadastro/produtos/cadastro_produtos_page.dart';
+import 'package:manager_app/presentation/menus/cadastro/produtos/consulta_produtos_page.dart';
 import 'package:manager_app/widgets/text_widget.dart';
 
 class MenuCadastro extends StatefulWidget {
@@ -41,7 +42,7 @@ class _MenuCadastroState extends State<MenuCadastro> {
                 child: TextWidget.normal('Cadastrar Produto'),
               ),
               MenuItemButton(
-                onPressed: () {},
+                onPressed: () => ConsultaProdutosPage.show(context),
                 child: TextWidget.normal('Consultar Produtos'),
               ),
             ],
