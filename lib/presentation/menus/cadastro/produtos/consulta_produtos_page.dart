@@ -9,6 +9,7 @@ import 'package:manager_app/core/extensions/media_query_extension.dart';
 import 'package:manager_app/core/util/filtros_text_form_field.dart';
 import 'package:manager_app/core/util/formatar_cpf_cnpj.dart';
 import 'package:manager_app/model/produto_model.dart';
+import 'package:manager_app/presentation/menus/cadastro/produtos/visualizar_alterar_produto_page.dart';
 import 'package:manager_app/widgets/loading_widget.dart';
 import 'package:manager_app/widgets/quick_dialog_widget.dart';
 import 'package:manager_app/widgets/sizedbox_widget.dart';
@@ -73,14 +74,14 @@ class _ConsultaProdutosPageState extends State<ConsultaProdutosPage> {
   }
 
   void reativarCadastro() {
-    TextEditingController cpfCnpjController = TextEditingController();
+    TextEditingController codigoController = TextEditingController();
     showDialog(
       context: context,
       builder:
           (context) => AlertDialog(
             title: Row(
               children: [
-                TextWidget.title('Reativar Cadastro'),
+                TextWidget.title('Reativar Produto'),
                 const Spacer(),
                 const CloseButton(),
               ],
@@ -91,11 +92,10 @@ class _ConsultaProdutosPageState extends State<ConsultaProdutosPage> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TextFormFieldWidget(
-                    controller: cpfCnpjController,
-                    inputLabel: 'Insira o CPF/CNPJ do cadastro',
-                    inputFormatters: [filtroSomenteCaracteresCpfCnpj],
-                    icon: LucideIcons.idCard,
-                    maxLength: 18,
+                    controller: codigoController,
+                    inputLabel: 'Insira o código do produto',
+                    icon: LucideIcons.qrCode,
+                    maxLength: 50,
                   ),
                   const SizedBoxWidget.lg(),
                   SizedBox(
@@ -114,30 +114,23 @@ class _ConsultaProdutosPageState extends State<ConsultaProdutosPage> {
                           final db = await DbService().connection;
                           await db.execute(
                             Sql.named(
-                              'UPDATE clientes_fornecedores SET ativo = true WHERE cpf_cnpj = @cpfCnpj',
+                              'UPDATE produtos SET ativo = true WHERE codigo = @codigo',
                             ),
-                            parameters: {
-                              'cpfCnpj': formatarCpfCnpj(
-                                cpfCnpjController.text
-                                    .replaceAll('.', '')
-                                    .replaceAll('-', '')
-                                    .replaceAll('/', ''),
-                              ),
-                            },
+                            parameters: {'codigo': codigoController.text},
                           );
                           Navigator.pop(context);
                           //Navigator.pop(context);
 
                           await QuickDialogWidget().sucessoMsg(
                             context: context,
-                            texto: 'Cadastro reativado com sucesso.',
+                            texto: 'Produto reativado com sucesso.',
                             textoBotao: 'Finalizar',
                           );
                         } catch (e) {
                           await QuickDialogWidget().erroMsg(
                             context: context,
-                            texto: 'Erro ao reativar o cadastro: $e',
-                            textoBotao: 'Voltar ao Cadastro',
+                            texto: 'Erro ao reativar o Produto: $e',
+                            textoBotao: 'Voltar',
                           );
                         }
                       },
@@ -290,7 +283,11 @@ class _ConsultaProdutosPageState extends State<ConsultaProdutosPage> {
                                     hoverColor: AppColors.primary.withValues(
                                       alpha: 0.1,
                                     ),
-                                    onTap: () {},
+                                    onTap:
+                                        () => VisualizarAlterarProdutoPage.show(
+                                          context,
+                                          produto,
+                                        ),
                                   );
                                 },
                               ),

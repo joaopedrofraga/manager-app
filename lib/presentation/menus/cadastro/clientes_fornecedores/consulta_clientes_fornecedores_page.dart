@@ -146,7 +146,7 @@ class _ConsultaClientesFornecedoresPageState
                           await QuickDialogWidget().erroMsg(
                             context: context,
                             texto: 'Erro ao reativar o cadastro: $e',
-                            textoBotao: 'Voltar ao Cadastro',
+                            textoBotao: 'Voltar',
                           );
                         }
                       },
