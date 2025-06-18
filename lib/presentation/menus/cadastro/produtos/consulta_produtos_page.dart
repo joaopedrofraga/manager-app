@@ -6,8 +6,6 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:manager_app/core/config/app_colors.dart';
 import 'package:manager_app/core/database/db_service.dart';
 import 'package:manager_app/core/extensions/media_query_extension.dart';
-import 'package:manager_app/core/util/filtros_text_form_field.dart';
-import 'package:manager_app/core/util/formatar_cpf_cnpj.dart';
 import 'package:manager_app/model/produto_model.dart';
 import 'package:manager_app/presentation/menus/cadastro/produtos/visualizar_alterar_produto_page.dart';
 import 'package:manager_app/widgets/loading_widget.dart';

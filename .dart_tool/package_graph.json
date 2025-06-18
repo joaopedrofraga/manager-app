@@ -7,6 +7,7 @@
       "name": "manager_app",
       "version": "1.0.0+1",
       "dependencies": [
+        "animated_toggle_switch",
         "cpf_cnpj_validator",
         "cupertino_icons",
         "extended_masked_text",
@@ -55,6 +56,13 @@
         "test_api",
         "vector_math",
         "vm_service"
+      ]
+    },
+    {
+      "name": "animated_toggle_switch",
+      "version": "0.8.5",
+      "dependencies": [
+        "flutter"
       ]
     },
     {
