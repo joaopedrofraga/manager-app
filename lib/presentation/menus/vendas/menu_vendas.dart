@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:manager_app/core/config/app_colors.dart';
 import 'package:manager_app/core/const/const.dart';
+import 'package:manager_app/presentation/menus/vendas/orcamentos/criar_orcamento_page.dart';
 import 'package:manager_app/widgets/text_widget.dart';
 
 class MenuVendas extends StatefulWidget {
@@ -20,16 +21,12 @@ class _MenuVendasState extends State<MenuVendas> {
           SubmenuButton(
             menuChildren: [
               MenuItemButton(
-                onPressed: () {},
+                onPressed: () => CriarOrcamentoPage.show(context),
                 child: TextWidget.normal('Criar Orçamento'),
               ),
               MenuItemButton(
                 onPressed: () {},
-                child: TextWidget.normal('Consultar Orçamento'),
-              ),
-              MenuItemButton(
-                onPressed: () {},
-                child: TextWidget.normal('Excluir Orçamento'),
+                child: TextWidget.normal('Consultar Orçamentos'),
               ),
             ],
             child: TextWidget.normal('Orçamentos'),
@@ -42,11 +39,7 @@ class _MenuVendasState extends State<MenuVendas> {
               ),
               MenuItemButton(
                 onPressed: () {},
-                child: TextWidget.normal('Consultar Venda'),
-              ),
-              MenuItemButton(
-                onPressed: () {},
-                child: TextWidget.normal('Excluir Venda'),
+                child: TextWidget.normal('Consultar Vendas'),
               ),
             ],
             child: TextWidget.normal('Vendas'),

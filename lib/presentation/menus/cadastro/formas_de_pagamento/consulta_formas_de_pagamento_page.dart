@@ -7,8 +7,7 @@ import 'package:manager_app/core/config/app_colors.dart';
 import 'package:manager_app/core/database/db_service.dart';
 import 'package:manager_app/core/extensions/media_query_extension.dart';
 import 'package:manager_app/model/forma_pagamento_model.dart';
-import 'package:manager_app/model/produto_model.dart';
-import 'package:manager_app/presentation/menus/cadastro/produtos/visualizar_alterar_produto_page.dart';
+import 'package:manager_app/presentation/menus/cadastro/formas_de_pagamento/visualizar_alterar_forma_de_pagamento_page.dart';
 import 'package:manager_app/widgets/loading_widget.dart';
 import 'package:manager_app/widgets/quick_dialog_widget.dart';
 import 'package:manager_app/widgets/sizedbox_widget.dart';
@@ -71,15 +70,15 @@ class _ConsultaFormasDePagamentoPageState
     });
   }
 
-  void reativarCadastro() {
-    TextEditingController codigoController = TextEditingController();
+  void reativarFormaDePagamento() {
+    TextEditingController descricaoController = TextEditingController();
     showDialog(
       context: context,
       builder:
           (context) => AlertDialog(
             title: Row(
               children: [
-                TextWidget.title('Reativar Produto'),
+                TextWidget.title('Reativar Forma de Pagamento'),
                 const Spacer(),
                 const CloseButton(),
               ],
@@ -90,9 +89,9 @@ class _ConsultaFormasDePagamentoPageState
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TextFormFieldWidget(
-                    controller: codigoController,
-                    inputLabel: 'Insira o código do produto',
-                    icon: LucideIcons.qrCode,
+                    controller: descricaoController,
+                    inputLabel: 'Insira a descrição da forma de pagamento',
+                    icon: LucideIcons.walletCards,
                     maxLength: 50,
                   ),
                   const SizedBoxWidget.lg(),
@@ -112,22 +111,22 @@ class _ConsultaFormasDePagamentoPageState
                           final db = await DbService().connection;
                           await db.execute(
                             Sql.named(
-                              'UPDATE produtos SET ativo = true WHERE codigo = @codigo',
+                              'UPDATE formas_pagamento SET ativo = true WHERE descricao = @descricao',
                             ),
-                            parameters: {'codigo': codigoController.text},
+                            parameters: {'descricao': descricaoController.text},
                           );
                           Navigator.pop(context);
                           //Navigator.pop(context);
 
                           await QuickDialogWidget().sucessoMsg(
                             context: context,
-                            texto: 'Produto reativado com sucesso.',
+                            texto: 'Forma de Pagamento reativada com sucesso.',
                             textoBotao: 'Finalizar',
                           );
                         } catch (e) {
                           await QuickDialogWidget().erroMsg(
                             context: context,
-                            texto: 'Erro ao reativar o Produto: $e',
+                            texto: 'Erro ao reativar a Forma de Pagamento: $e',
                             textoBotao: 'Voltar',
                           );
                         }
@@ -173,7 +172,7 @@ class _ConsultaFormasDePagamentoPageState
                       TextWidget.title('Consulta Formas de Pagamento'),
                       const Spacer(),
                       IconButton(
-                        onPressed: () => reativarCadastro(),
+                        onPressed: () => reativarFormaDePagamento(),
                         tooltip: 'Reativar Forma de Pagamento',
                         icon: Icon(Icons.restore_from_trash),
                       ),
@@ -278,7 +277,12 @@ class _ConsultaFormasDePagamentoPageState
                                     hoverColor: AppColors.primary.withValues(
                                       alpha: 0.1,
                                     ),
-                                    onTap: () {},
+                                    onTap:
+                                        () =>
+                                            VisualizarAlterarFormaDePagamentoPage.show(
+                                              context,
+                                              formaDePagamento,
+                                            ),
                                   );
                                 },
                               ),
