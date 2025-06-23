@@ -10,7 +10,6 @@ import 'package:manager_app/presentation/menus/financeiro/menu_financeiro.dart';
 import 'package:manager_app/presentation/menus/relatorios/menu_relatorios.dart';
 import 'package:manager_app/presentation/menus/utilitarios/menu_utilitarios.dart';
 import 'package:manager_app/presentation/menus/vendas/menu_vendas.dart';
-import 'package:manager_app/widgets/loading_widget.dart';
 import 'package:manager_app/widgets/text_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -88,7 +87,10 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.all(20),
                   child: AspectRatio(
                     aspectRatio: 1.5,
-                    child: SvgPicture.asset(AppImages.homePage),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: SvgPicture.asset(AppImages.homePage),
+                    ),
                   ),
                 ),
               ),
