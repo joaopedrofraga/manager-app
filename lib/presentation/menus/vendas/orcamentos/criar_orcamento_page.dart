@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:manager_app/core/extensions/media_query_extension.dart';
+import 'package:manager_app/widgets/datetime_textformfield_widget.dart';
 import 'package:manager_app/widgets/sizedbox_widget.dart';
 import 'package:manager_app/widgets/text_widget.dart';
 import 'package:manager_app/widgets/textformfield_widget.dart';
@@ -21,6 +22,14 @@ class CriarOrcamentoPage extends StatefulWidget {
 }
 
 class _CriarOrcamentoPageState extends State<CriarOrcamentoPage> {
+  DateTime dataHoraOrcamento = DateTime.now();
+
+  void updateDataHora(DateTime novaDataHora) {
+    setState(() {
+      dataHoraOrcamento = novaDataHora;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,9 +58,18 @@ class _CriarOrcamentoPageState extends State<CriarOrcamentoPage> {
                     'OBS: Orçamentos não possuem forma de pagamento.',
                   ),
                   const SizedBoxWidget.md(),
+                  DateTimeTextFormFieldWidget(
+                    dataHora: dataHoraOrcamento,
+                    updateDataHora: updateDataHora,
+                  ),
+                  const SizedBoxWidget.md(),
                   TextFormFieldWidget(
                     controller: TextEditingController(),
                     inputLabel: 'Cliente',
+                  ),
+                  ElevatedButton(
+                    onPressed: () => print(dataHoraOrcamento),
+                    child: Text('teste'),
                   ),
                 ],
               ),

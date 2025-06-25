@@ -6,7 +6,7 @@ class TextFormFieldWidget extends StatelessWidget {
   final String? hintText;
   final IconData? icon;
   final bool isPassword;
-  final bool isEnabled;
+  final bool readOnly;
   final TextEditingController controller;
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
@@ -23,7 +23,7 @@ class TextFormFieldWidget extends StatelessWidget {
     this.hintText,
     this.icon,
     this.isPassword = false,
-    this.isEnabled = true,
+    this.readOnly = false,
     this.keyboardType = TextInputType.text,
     this.validator,
     this.maxLength,
@@ -38,7 +38,7 @@ class TextFormFieldWidget extends StatelessWidget {
     return TextFormField(
       onChanged: onChanged,
       controller: controller,
-      enabled: isEnabled,
+      readOnly: readOnly,
       obscureText: isPassword,
       keyboardType: keyboardType,
       maxLength: maxLength,
