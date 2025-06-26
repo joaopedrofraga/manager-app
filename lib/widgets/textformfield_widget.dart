@@ -15,6 +15,7 @@ class TextFormFieldWidget extends StatelessWidget {
   final Widget? suffixWidget;
   final List<TextInputFormatter>? inputFormatters;
   final Function(String)? onChanged;
+  final FocusNode? focusNode;
 
   const TextFormFieldWidget({
     super.key,
@@ -31,6 +32,7 @@ class TextFormFieldWidget extends StatelessWidget {
     this.suffixWidget,
     this.inputFormatters,
     this.onChanged,
+    this.focusNode,
   });
 
   @override
@@ -44,6 +46,7 @@ class TextFormFieldWidget extends StatelessWidget {
       maxLength: maxLength,
       maxLines: maxLines,
       validator: validator,
+      focusNode: focusNode,
       inputFormatters: [
         TextInputFormatter.withFunction(
           (oldValue, newValue) => newValue.copyWith(

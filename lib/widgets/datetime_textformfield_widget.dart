@@ -24,13 +24,14 @@ class DateTimeTextFormFieldWidget extends StatefulWidget {
 class _DateTimeTextFormFieldWidgetState
     extends State<DateTimeTextFormFieldWidget> {
   late String init;
-  MaskedTextController controller = MaskedTextController(
+  MaskedTextController dataHoraController = MaskedTextController(
     mask: '00/00/0000 - 00:00',
   );
+  FocusNode focusNode = FocusNode();
 
   void updateController(DateTime novaData) {
     setState(() {
-      controller.text =
+      dataHoraController.text =
           '${novaData.day.toString().padLeft(2, '0')}/${novaData.month.toString().padLeft(2, '0')}/${novaData.year} - ${novaData.hour.toString().padLeft(2, '0')}:${novaData.minute.toString().padLeft(2, '0')}';
     });
   }
@@ -68,10 +69,58 @@ class _DateTimeTextFormFieldWidgetState
     });
   }
 
+  void _validateAndFormatInput() {
+    final text = dataHoraController.text;
+    if (text.length < 16) {
+      setState(() {
+        updateController(widget.dataHora);
+      });
+      return;
+    }
+
+    try {
+      final dateParts = text.substring(0, 10).split('/');
+      final timeParts = text.substring(13).split(':');
+
+      final day = int.parse(dateParts[0]);
+      final month = int.parse(dateParts[1]);
+      final year = int.parse(dateParts[2]);
+      final hour = int.parse(timeParts[0]);
+      final minute = int.parse(timeParts[1]);
+
+      final newDateTime = DateTime(year, month, day, hour, minute);
+
+      if (newDateTime.year != year ||
+          newDateTime.month != month ||
+          newDateTime.day != day) {
+        throw const FormatException("Data inválida.");
+      }
+
+      setState(() {
+        widget.dataHora = newDateTime;
+        updateController(widget.dataHora);
+      });
+      widget.updateDataHora(widget.dataHora);
+    } catch (e) {
+      setState(() {
+        updateController(widget.dataHora);
+      });
+    }
+  }
+
   @override
   void initState() {
     updateController(widget.dataHora);
+    focusNode.addListener(_validateAndFormatInput);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    focusNode.removeListener(_validateAndFormatInput);
+    focusNode.dispose();
+    dataHoraController.dispose();
+    super.dispose();
   }
 
   @override
@@ -93,8 +142,8 @@ class _DateTimeTextFormFieldWidgetState
         const SizedBoxWidget.xxs(),
         Expanded(
           child: TextFormFieldWidget(
-            readOnly: true,
-            controller: controller,
+            controller: dataHoraController,
+            focusNode: focusNode,
             inputLabel: 'Data/Hora do Orçamento',
             onChanged: (String novoTexto) {},
           ),
