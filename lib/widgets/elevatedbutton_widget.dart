@@ -54,11 +54,7 @@ class ElevatedButtonWidget extends StatelessWidget {
                   Icon(icon, size: 18),
                   const SizedBox(width: 6),
                 ],
-                TextWidget.normal(
-                  label,
-                  color:
-                      isPrimary ? AppColors.whiteColor : AppColors.blackColor,
-                ),
+                TextWidget.normal(label, color: AppColors.background),
               ],
             );
 
@@ -71,7 +67,7 @@ class ElevatedButtonWidget extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 14),
           backgroundColor:
               backgroundColor ??
-              (isPrimary ? AppColors.primary : AppColors.background),
+              (isPrimary ? AppColors.primary : AppColors.secundary),
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),

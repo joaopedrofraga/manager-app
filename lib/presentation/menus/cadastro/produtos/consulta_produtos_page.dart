@@ -9,6 +9,7 @@ import 'package:manager_app/core/extensions/media_query_extension.dart';
 import 'package:manager_app/model/produto_model.dart';
 import 'package:manager_app/presentation/menus/cadastro/produtos/visualizar_alterar_produto_page.dart';
 import 'package:manager_app/widgets/loading_widget.dart';
+import 'package:manager_app/widgets/produto_list_tile_widget.dart';
 import 'package:manager_app/widgets/quick_dialog_widget.dart';
 import 'package:manager_app/widgets/sizedbox_widget.dart';
 import 'package:manager_app/widgets/text_widget.dart';
@@ -246,41 +247,8 @@ class _ConsultaProdutosPageState extends State<ConsultaProdutosPage> {
                                 itemCount: produtosFiltrados.length,
                                 itemBuilder: (context, index) {
                                   final produto = produtosFiltrados[index];
-                                  return ListTile(
-                                    title: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        TextWidget.small(
-                                          produto.codigo!,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        TextWidget.bold(
-                                          produto.descricao!,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ],
-                                    ),
-                                    subtitle: TextWidget.small(
-                                      'Venda: ${produto.getVendaFormatada()} | Custo: ${produto.getCustoFormatado()}',
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    trailing: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        TextWidget.normal(
-                                          '${produto.estoque.toString().replaceAll('.', ',')} ${produto.unidade}',
-                                        ),
-                                        const SizedBoxWidget.xxs(),
-                                        Icon(LucideIcons.package),
-                                      ],
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    hoverColor: AppColors.primary.withValues(
-                                      alpha: 0.1,
-                                    ),
+                                  return ProdutoListTileWidget(
+                                    produto: produto,
                                     onTap:
                                         () => VisualizarAlterarProdutoPage.show(
                                           context,
