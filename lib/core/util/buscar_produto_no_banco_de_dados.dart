@@ -3,8 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:manager_app/core/database/db_service.dart';
 import 'package:manager_app/model/produto_model.dart';
+import 'package:manager_app/model/produto_orcamento_model.dart';
 import 'package:manager_app/widgets/produto_list_tile_widget.dart';
+import 'package:manager_app/widgets/sizedbox_widget.dart';
 import 'package:manager_app/widgets/text_widget.dart';
+import 'package:manager_app/widgets/textformfield_widget.dart';
 import 'package:postgres/postgres.dart';
 
 class BuscarProdutoNoBancoDeDados {
@@ -33,6 +36,14 @@ class BuscarProdutoNoBancoDeDados {
         context: context,
         builder: (context) => ExibirResultadosProdutos(todosProdutos: produtos),
       );
+
+      if (produtoSelecionado == null) return null;
+
+      final ProdutoOrcamentoModel? produtoOrcamento = await showDialog(
+        context: context,
+        builder: (context) => DadosProdutoOrcamentoPage(),
+      );
+
       return produtoSelecionado;
     } catch (e) {
       throw Exception('$e');
@@ -81,6 +92,46 @@ class ExibirResultadosProdutos extends StatelessWidget {
                       );
                     },
                   ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class DadosProdutoOrcamentoPage extends StatelessWidget {
+  const DadosProdutoOrcamentoPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Dialog(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 400),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    TextWidget.title('Opções'),
+                    const Spacer(),
+                    CloseButton(),
+                  ],
+                ),
+                TextWidget.small(
+                  'Preencha os campos abaixo para inserir o produto.',
+                ),
+                const SizedBoxWidget.md(),
+                TextFormFieldWidget(
+                  controller: TextEditingController(),
+                  inputLabel: 'Quantidade',
                 ),
               ],
             ),

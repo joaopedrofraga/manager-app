@@ -1,9 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:manager_app/core/config/app_colors.dart';
-import 'package:manager_app/widgets/sizedbox_widget.dart';
-import 'package:manager_app/widgets/text_widget.dart';
-
 class ProdutosModel {
   final int? id;
   final String? codigo;

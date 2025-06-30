@@ -6,6 +6,7 @@ import 'package:manager_app/core/util/buscar_produto_no_banco_de_dados.dart';
 import 'package:manager_app/model/produto_model.dart';
 import 'package:manager_app/widgets/datetime_textformfield_widget.dart';
 import 'package:manager_app/widgets/elevatedbutton_widget.dart';
+import 'package:manager_app/widgets/produto_list_tile_widget.dart';
 import 'package:manager_app/widgets/sizedbox_widget.dart';
 import 'package:manager_app/widgets/text_widget.dart';
 import 'package:manager_app/widgets/textformfield_widget.dart';
@@ -29,6 +30,7 @@ class CriarOrcamentoPage extends StatefulWidget {
 class _CriarOrcamentoPageState extends State<CriarOrcamentoPage> {
   DateTime dataHoraOrcamento = DateTime.now();
   TextEditingController codigoOuDescricaoController = TextEditingController();
+  List<ProdutosModel> produtosOrcamento = [];
 
   void updateDataHora(DateTime novaDataHora) {
     setState(() {
@@ -99,10 +101,31 @@ class _CriarOrcamentoPageState extends State<CriarOrcamentoPage> {
                                 codigoOuDescricaoController.text,
                               );
 
-                          print(produto);
+                          debugPrint(produto.toString());
+
+                          if (produto == null) return;
+
+                          setState(() {
+                            produtosOrcamento.add(produto);
+                          });
                         },
                       ),
                     ],
+                  ),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: context.getHeight / 7,
+                    ),
+                    child: ListView.builder(
+                      itemCount: produtosOrcamento.length,
+                      itemBuilder: (context, index) {
+                        final produto = produtosOrcamento[index];
+                        return ProdutoListTileWidget(
+                          produto: produto,
+                          onTap: () => Navigator.pop(context, produto),
+                        );
+                      },
+                    ),
                   ),
                   const SizedBoxWidget.lg(),
                   ElevatedButtonWidget(
