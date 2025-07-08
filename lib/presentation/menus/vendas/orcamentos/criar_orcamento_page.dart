@@ -4,9 +4,11 @@ import 'package:manager_app/core/config/app_colors.dart';
 import 'package:manager_app/core/extensions/media_query_extension.dart';
 import 'package:manager_app/core/util/buscar_produto_no_banco_de_dados.dart';
 import 'package:manager_app/model/produto_model.dart';
+import 'package:manager_app/model/produto_orcamento_model.dart';
 import 'package:manager_app/widgets/datetime_textformfield_widget.dart';
 import 'package:manager_app/widgets/elevatedbutton_widget.dart';
 import 'package:manager_app/widgets/produto_list_tile_widget.dart';
+import 'package:manager_app/widgets/produto_orcamento_list_tile_widget.dart';
 import 'package:manager_app/widgets/sizedbox_widget.dart';
 import 'package:manager_app/widgets/text_widget.dart';
 import 'package:manager_app/widgets/textformfield_widget.dart';
@@ -30,7 +32,7 @@ class CriarOrcamentoPage extends StatefulWidget {
 class _CriarOrcamentoPageState extends State<CriarOrcamentoPage> {
   DateTime dataHoraOrcamento = DateTime.now();
   TextEditingController codigoOuDescricaoController = TextEditingController();
-  List<ProdutosModel> produtosOrcamento = [];
+  List<ProdutoOrcamentoModel> produtosOrcamento = [];
 
   void updateDataHora(DateTime novaDataHora) {
     setState(() {
@@ -74,6 +76,7 @@ class _CriarOrcamentoPageState extends State<CriarOrcamentoPage> {
                   TextFormFieldWidget(
                     controller: TextEditingController(),
                     inputLabel: 'Cliente',
+                    icon: LucideIcons.user,
                   ),
                   const SizedBoxWidget.sm(),
                   Divider(),
@@ -95,7 +98,7 @@ class _CriarOrcamentoPageState extends State<CriarOrcamentoPage> {
                         label: '  Adicionar Produto  ',
                         //icon: Icons.add,
                         onPressed: () async {
-                          ProdutosModel? produto =
+                          ProdutoOrcamentoModel? produto =
                               await BuscarProdutoNoBancoDeDados().buscar(
                                 context,
                                 codigoOuDescricaoController.text,
@@ -107,6 +110,7 @@ class _CriarOrcamentoPageState extends State<CriarOrcamentoPage> {
 
                           setState(() {
                             produtosOrcamento.add(produto);
+                            codigoOuDescricaoController.clear();
                           });
                         },
                       ),
@@ -119,10 +123,10 @@ class _CriarOrcamentoPageState extends State<CriarOrcamentoPage> {
                     child: ListView.builder(
                       itemCount: produtosOrcamento.length,
                       itemBuilder: (context, index) {
-                        final produto = produtosOrcamento[index];
-                        return ProdutoListTileWidget(
-                          produto: produto,
-                          onTap: () => Navigator.pop(context, produto),
+                        final produtoOrcamento = produtosOrcamento[index];
+                        return ProdutoOrcamentoListTileWidget(
+                          produtoOrcamento: produtoOrcamento,
+                          onTap: () {},
                         );
                       },
                     ),

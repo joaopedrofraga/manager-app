@@ -1,9 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:manager_app/core/database/db_service.dart';
 import 'package:manager_app/model/produto_model.dart';
 import 'package:manager_app/model/produto_orcamento_model.dart';
+import 'package:manager_app/widgets/elevatedbutton_widget.dart';
 import 'package:manager_app/widgets/produto_list_tile_widget.dart';
 import 'package:manager_app/widgets/sizedbox_widget.dart';
 import 'package:manager_app/widgets/text_widget.dart';
@@ -11,7 +15,7 @@ import 'package:manager_app/widgets/textformfield_widget.dart';
 import 'package:postgres/postgres.dart';
 
 class BuscarProdutoNoBancoDeDados {
-  Future<ProdutosModel?> buscar(
+  Future<ProdutoOrcamentoModel?> buscar(
     BuildContext context,
     String codigoOuDescricao,
   ) async {
@@ -30,21 +34,29 @@ class BuscarProdutoNoBancoDeDados {
             return ProdutosModel.fromMap(row.toColumnMap());
           }).toList();
       if (produtos.isEmpty) return null;
-      if (produtos.length == 1) return produtos.single;
 
-      final ProdutosModel? produtoSelecionado = await showDialog(
-        context: context,
-        builder: (context) => ExibirResultadosProdutos(todosProdutos: produtos),
-      );
+      ProdutosModel? produtoSelecionado;
+
+      if (produtos.length > 1) {
+        produtoSelecionado = await showDialog(
+          context: context,
+          builder:
+              (context) => ExibirResultadosProdutos(todosProdutos: produtos),
+        );
+      } else {
+        produtoSelecionado = produtos.single;
+      }
 
       if (produtoSelecionado == null) return null;
 
       final ProdutoOrcamentoModel? produtoOrcamento = await showDialog(
         context: context,
-        builder: (context) => DadosProdutoOrcamentoPage(),
+        builder:
+            (context) =>
+                DadosProdutoOrcamentoPage(produto: produtoSelecionado!),
       );
 
-      return produtoSelecionado;
+      return produtoOrcamento;
     } catch (e) {
       throw Exception('$e');
     }
@@ -103,10 +115,18 @@ class ExibirResultadosProdutos extends StatelessWidget {
 }
 
 class DadosProdutoOrcamentoPage extends StatelessWidget {
-  const DadosProdutoOrcamentoPage({super.key});
+  final ProdutosModel produto;
+  const DadosProdutoOrcamentoPage({super.key, required this.produto});
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController quantidadeController = TextEditingController(
+      text: '1',
+    );
+    final MoneyMaskedTextController valorController = MoneyMaskedTextController(
+      initialValue: produto.venda ?? 0.0,
+      leftSymbol: 'R\$ ',
+    );
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Dialog(
@@ -120,7 +140,7 @@ class DadosProdutoOrcamentoPage extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    TextWidget.title('Opções'),
+                    TextWidget.title('Adição de Produto'),
                     const Spacer(),
                     CloseButton(),
                   ],
@@ -130,8 +150,38 @@ class DadosProdutoOrcamentoPage extends StatelessWidget {
                 ),
                 const SizedBoxWidget.md(),
                 TextFormFieldWidget(
-                  controller: TextEditingController(),
-                  inputLabel: 'Quantidade',
+                  controller: quantidadeController,
+                  inputLabel: 'Quantidade de Produtos',
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  icon: LucideIcons.box,
+                ),
+                const SizedBoxWidget.md(),
+                TextFormFieldWidget(
+                  controller: valorController,
+                  inputLabel:
+                      'Valor Unitário (altere caso possua desconto/acréscimo)',
+                  icon: LucideIcons.tag,
+                ),
+                const SizedBoxWidget.xl(),
+                ElevatedButtonWidget(
+                  width: double.infinity,
+                  height: 40,
+                  label: 'Adicionar',
+                  onPressed: () {
+                    final quantidade =
+                        double.tryParse(quantidadeController.text) ?? 1;
+                    final valorUnitario = valorController.numberValue;
+                    final subtotal = quantidade * valorUnitario;
+
+                    final produtoOrcamento = ProdutoOrcamentoModel(
+                      produto: produto,
+                      quantidade: quantidade,
+                      valorUnitario: valorUnitario,
+                      subtotal: subtotal,
+                    );
+
+                    Navigator.pop(context, produtoOrcamento);
+                  },
                 ),
               ],
             ),
