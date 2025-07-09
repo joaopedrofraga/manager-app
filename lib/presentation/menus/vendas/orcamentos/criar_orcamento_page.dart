@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:manager_app/core/config/app_colors.dart';
 import 'package:manager_app/core/extensions/media_query_extension.dart';
 import 'package:manager_app/core/util/buscar_produto_no_banco_de_dados.dart';
-import 'package:manager_app/model/produto_model.dart';
 import 'package:manager_app/model/produto_orcamento_model.dart';
 import 'package:manager_app/widgets/datetime_textformfield_widget.dart';
 import 'package:manager_app/widgets/elevatedbutton_widget.dart';
-import 'package:manager_app/widgets/produto_list_tile_widget.dart';
 import 'package:manager_app/widgets/produto_orcamento_list_tile_widget.dart';
 import 'package:manager_app/widgets/sizedbox_widget.dart';
 import 'package:manager_app/widgets/text_widget.dart';
@@ -98,13 +95,13 @@ class _CriarOrcamentoPageState extends State<CriarOrcamentoPage> {
                         label: '  Adicionar Produto  ',
                         //icon: Icons.add,
                         onPressed: () async {
+                          FocusScope.of(context).unfocus();
+
                           ProdutoOrcamentoModel? produto =
                               await BuscarProdutoNoBancoDeDados().buscar(
                                 context,
                                 codigoOuDescricaoController.text,
                               );
-
-                          debugPrint(produto.toString());
 
                           if (produto == null) return;
 
@@ -116,22 +113,42 @@ class _CriarOrcamentoPageState extends State<CriarOrcamentoPage> {
                       ),
                     ],
                   ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxHeight: context.getHeight / 7,
+                  const SizedBoxWidget.sm(),
+                  if (produtosOrcamento.isNotEmpty)
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxHeight: context.getHeight / 2,
+                      ),
+                      child: SizedBox(
+                        height: produtosOrcamento.length * 50,
+                        child: ListView.builder(
+                          itemCount: produtosOrcamento.length,
+                          itemBuilder: (context, index) {
+                            final produtoOrcamento = produtosOrcamento[index];
+                            return ProdutoOrcamentoListTileWidget(
+                              produtoOrcamento: produtoOrcamento,
+                              onTap:
+                                  () => setState(() {
+                                    produtosOrcamento.removeAt(index);
+                                  }),
+                            );
+                          },
+                        ),
+                      ),
                     ),
-                    child: ListView.builder(
-                      itemCount: produtosOrcamento.length,
-                      itemBuilder: (context, index) {
-                        final produtoOrcamento = produtosOrcamento[index];
-                        return ProdutoOrcamentoListTileWidget(
-                          produtoOrcamento: produtoOrcamento,
-                          onTap: () {},
-                        );
-                      },
-                    ),
+                  const SizedBoxWidget.md(),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextWidget.small(
+                        '**Clique no produto para remover do orçamento',
+                      ),
+                      const Spacer(),
+                      TextWidget.small(
+                        'Subtotal: R\$ ${produtosOrcamento.fold<double>(0.0, (previousValue, element) => previousValue + element.subtotal).toStringAsFixed(2).replaceAll('.', ',')}',
+                      ),
+                    ],
                   ),
-                  const SizedBoxWidget.lg(),
                   ElevatedButtonWidget(
                     width: double.infinity,
                     height: 45,

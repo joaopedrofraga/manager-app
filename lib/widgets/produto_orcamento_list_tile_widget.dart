@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:manager_app/core/config/app_colors.dart';
 import 'package:manager_app/model/produto_orcamento_model.dart';
-import 'package:manager_app/widgets/sizedbox_widget.dart';
 import 'package:manager_app/widgets/text_widget.dart';
 
 class ProdutoOrcamentoListTileWidget extends StatelessWidget {
@@ -17,31 +15,20 @@ class ProdutoOrcamentoListTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextWidget.small(
-            produtoOrcamento.produto.codigo!,
-            overflow: TextOverflow.ellipsis,
-          ),
-          TextWidget.bold(
-            produtoOrcamento.produto.descricao!,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
-      subtitle: TextWidget.small(
-        'Valor UN: ${produtoOrcamento.valorUnitario} | Quantidade: ${produtoOrcamento.quantidade}',
+      title: TextWidget.bold(
+        produtoOrcamento.produto.descricao!,
         overflow: TextOverflow.ellipsis,
       ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          TextWidget.normal(
-            'Subtotal: R\$ ${produtoOrcamento.subtotal.toStringAsFixed(2).replaceAll('.', ',')}',
+          TextWidget.small(
+            'R\$ ${produtoOrcamento.valorUnitario.toStringAsFixed(2).replaceAll('.', ',')} * ${produtoOrcamento.quantidade} = ',
           ),
-          const SizedBoxWidget.xxs(),
-          Icon(LucideIcons.coins),
+          TextWidget.small(
+            'R\$ ${produtoOrcamento.subtotal.toStringAsFixed(2).replaceAll('.', ',')}',
+            textStyle: TextStyle(fontWeight: FontWeight.bold),
+          ),
         ],
       ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
