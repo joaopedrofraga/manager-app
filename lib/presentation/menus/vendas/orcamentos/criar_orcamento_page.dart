@@ -137,22 +137,28 @@ class _CriarOrcamentoPageState extends State<CriarOrcamentoPage> {
                       ),
                     ),
                   const SizedBoxWidget.md(),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextWidget.small(
-                        '**Clique no produto para remover do orçamento',
-                      ),
-                      const Spacer(),
-                      TextWidget.small(
-                        'Subtotal: R\$ ${produtosOrcamento.fold<double>(0.0, (previousValue, element) => previousValue + element.subtotal).toStringAsFixed(2).replaceAll('.', ',')}',
-                      ),
-                    ],
-                  ),
+                  if (produtosOrcamento.isNotEmpty)
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextWidget.small(
+                          '**Clique no produto para remover do orçamento',
+                        ),
+                        const Spacer(),
+                        TextWidget.small(
+                          'Subtotal: R\$ ${produtosOrcamento.fold<double>(0.0, (previousValue, element) => previousValue + element.subtotal).toStringAsFixed(2).replaceAll('.', ',')}',
+                        ),
+                      ],
+                    ),
+                  if (produtosOrcamento.isEmpty)
+                    TextWidget.small(
+                      '**Adicione pelo menos um produto no orçamento',
+                    ),
                   ElevatedButtonWidget(
                     width: double.infinity,
                     height: 45,
                     label: 'Finalizar',
+                    isEnabled: produtosOrcamento.isNotEmpty,
                     onPressed: () {},
                   ),
                 ],

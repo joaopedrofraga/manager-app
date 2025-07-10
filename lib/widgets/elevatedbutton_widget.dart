@@ -7,6 +7,7 @@ class ElevatedButtonWidget extends StatelessWidget {
   final VoidCallback? onPressed;
   final bool isPrimary;
   final bool isLoading;
+  final bool isEnabled;
   final String? loadingMessage;
   final double? width;
   final double? height;
@@ -19,6 +20,7 @@ class ElevatedButtonWidget extends StatelessWidget {
     required this.onPressed,
     this.isPrimary = true,
     this.isLoading = false,
+    this.isEnabled = true,
     this.loadingMessage,
     this.width,
     this.height,
@@ -62,7 +64,7 @@ class ElevatedButtonWidget extends StatelessWidget {
       width: width,
       height: height,
       child: ElevatedButton(
-        onPressed: isLoading ? null : onPressed,
+        onPressed: (isLoading || !isEnabled) ? null : onPressed,
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 14),
           backgroundColor:

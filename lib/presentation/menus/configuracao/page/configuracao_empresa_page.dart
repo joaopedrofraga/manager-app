@@ -11,6 +11,7 @@ import 'package:manager_app/core/extensions/media_query_extension.dart';
 import 'package:manager_app/core/util/filtros_text_form_field.dart';
 import 'package:manager_app/core/util/formatar_cpf_cnpj.dart';
 import 'package:manager_app/model/info_empresa_model.dart';
+import 'package:manager_app/presentation/extra/senha_mestre_page.dart';
 import 'package:manager_app/widgets/elevatedbutton_widget.dart';
 import 'package:manager_app/widgets/quick_dialog_widget.dart';
 import 'package:manager_app/widgets/sizedbox_widget.dart';
@@ -21,7 +22,11 @@ import 'package:postgres/postgres.dart';
 class ConfiguracaoEmpresaPage extends StatefulWidget {
   const ConfiguracaoEmpresaPage({super.key});
 
-  static Future<void> show(BuildContext context) {
+  static Future<void> show(BuildContext context) async {
+    final validado = await SenhaMestrePage.validar(context);
+    if (validado == null || !validado) {
+      return;
+    }
     return showDialog(
       context: context,
       builder: (context) => const ConfiguracaoEmpresaPage(),
@@ -106,19 +111,17 @@ class _ConfiguracaoEmpresaPageState extends State<ConfiguracaoEmpresaPage> {
     }
   }
 
-  Future<void> cadastrarClienteFornecedor() async {
+  Future<void> atualizarInfoEmpresa() async {
     try {
       final db = await DbService().connection;
       await db.execute(
         Sql.named('''
-        INSERT INTO clientes_fornecedores (
-          nome, fantasia, telefone, cpf_cnpj, estado, cep, cidade,
-          bairro, endereco, numero, complemento, observacoes
-        ) VALUES (
-          @nome, @fantasia, @telefone, @cpfCnpj, @estado, @cep,
-          @cidade, @bairro, @endereco, @numero, @complemento,
-          @observacoes
-        )
+        UPDATE info_empresa
+        SET nome = @nome, fantasia = @fantasia, telefone = @telefone,
+            cpf_cnpj = @cpfCnpj, estado = @estado, cep = @cep,
+            cidade = @cidade, bairro = @bairro, endereco = @endereco,
+            numero = @numero, complemento = @complemento,
+            observacoes = @observacoes
         '''),
         parameters: {
           'nome': nomeTEC.text,
@@ -136,27 +139,17 @@ class _ConfiguracaoEmpresaPageState extends State<ConfiguracaoEmpresaPage> {
         },
       );
     } catch (e) {
-      if (e is UniqueViolationException) {
-        if (e.code == '23505') {
-          await QuickDialogWidget().erroMsg(
-            context: context,
-            texto: 'CPF/CNPJ de Cliente/Fornecedor já cadastrado no sistema.',
-            textoBotao: 'Voltar ao Cadastro',
-          );
-          return;
-        }
-      }
       await QuickDialogWidget().erroMsg(
         context: context,
-        texto: 'Erro ao cadastrar cliente/fornecedor: $e',
-        textoBotao: 'Voltar ao Cadastro',
+        texto: 'Erro ao atualizar as informações: $e',
+        textoBotao: 'Voltar para Configuração',
       );
       return;
     }
 
     await QuickDialogWidget().sucessoMsg(
       context: context,
-      texto: 'Cliente/Fornecedor cadastrado no sistema com sucesso.',
+      texto: 'Informações atualizadas com sucesso.',
       textoBotao: 'Finalizar',
     );
     Navigator.pop(context);
@@ -170,7 +163,7 @@ class _ConfiguracaoEmpresaPageState extends State<ConfiguracaoEmpresaPage> {
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: context.getWidth * 0.2 + 300),
+            constraints: BoxConstraints(maxWidth: context.getWidth * 0.2 + 500),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -181,16 +174,20 @@ class _ConfiguracaoEmpresaPageState extends State<ConfiguracaoEmpresaPage> {
                     children: [
                       TextWidget.title('Configuração da Empresa'),
                       const Spacer(),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(LucideIcons.rotateCcwKey),
+                        tooltip: 'Alterar Senha Mestre',
+                      ),
+                      const SizedBoxWidget.xxxs(),
                       CloseButton(),
                     ],
                   ),
-                  TextWidget.small(
-                    'Preencha o maior número de campos possível.',
-                  ),
+                  TextWidget.small('Os campos obrigatórios aparecem com *'),
                   const SizedBoxWidget.md(),
                   TextFormFieldWidget(
                     controller: nomeTEC,
-                    inputLabel: 'Nome do Cliente/Fornecedor*',
+                    inputLabel: 'Nome/Razão Social*',
                     icon: LucideIcons.contact,
                     maxLength: 300,
                   ),
@@ -200,8 +197,8 @@ class _ConfiguracaoEmpresaPageState extends State<ConfiguracaoEmpresaPage> {
                       Expanded(
                         child: TextFormFieldWidget(
                           controller: fantasiaTEC,
-                          inputLabel: 'Fantasia/Apelido',
-                          icon: LucideIcons.laugh,
+                          inputLabel: 'Apelido/Fantasia',
+                          //icon: LucideIcons.laugh,
                           maxLength: 250,
                         ),
                       ),
@@ -213,8 +210,18 @@ class _ConfiguracaoEmpresaPageState extends State<ConfiguracaoEmpresaPage> {
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                           ],
-                          icon: LucideIcons.phone,
+                          //icon: LucideIcons.phone,
                           maxLength: 20,
+                        ),
+                      ),
+                      const SizedBoxWidget.sm(),
+                      Expanded(
+                        child: TextFormFieldWidget(
+                          controller: cpfCnpjTEC,
+                          inputLabel: 'CPF/CNPJ*',
+                          inputFormatters: [filtroSomenteCaracteresCpfCnpj],
+                          //icon: LucideIcons.idCard,
+                          maxLength: 18,
                         ),
                       ),
                     ],
@@ -223,31 +230,16 @@ class _ConfiguracaoEmpresaPageState extends State<ConfiguracaoEmpresaPage> {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Expanded(
-                        child: TextFormFieldWidget(
-                          controller: cpfCnpjTEC,
-                          inputLabel: 'CPF/CNPJ*',
-                          inputFormatters: [filtroSomenteCaracteresCpfCnpj],
-                          icon: LucideIcons.idCard,
-                          maxLength: 18,
-                        ),
-                      ),
-                      const SizedBoxWidget.sm(),
                       Expanded(
                         child: TextFormFieldWidget(
                           controller: estadoTEC,
                           inputLabel: 'Estado*',
                           maxLength: 2,
                           inputFormatters: [filtroSomenteLetras],
-                          icon: LucideIcons.mapPin,
+                          //icon: LucideIcons.mapPin,
                         ),
                       ),
-                    ],
-                  ),
-                  const SizedBoxWidget.sm(),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
+                      const SizedBoxWidget.sm(),
                       Expanded(
                         child: TextFormFieldWidget(
                           controller: cepTEC,
@@ -255,7 +247,7 @@ class _ConfiguracaoEmpresaPageState extends State<ConfiguracaoEmpresaPage> {
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                           ],
-                          icon: LucideIcons.asterisk,
+                          //icon: LucideIcons.asterisk,
                           maxLength: 9,
                         ),
                       ),
@@ -265,7 +257,7 @@ class _ConfiguracaoEmpresaPageState extends State<ConfiguracaoEmpresaPage> {
                           controller: cidadeTEC,
                           inputLabel: 'Cidade*',
                           inputFormatters: [filtroSomenteLetrasComEspaco],
-                          icon: LucideIcons.mapPinned,
+                          //icon: LucideIcons.mapPinned,
                           maxLength: 100,
                         ),
                       ),
@@ -280,7 +272,7 @@ class _ConfiguracaoEmpresaPageState extends State<ConfiguracaoEmpresaPage> {
                           controller: bairroTEC,
                           inputLabel: 'Bairro*',
                           inputFormatters: [filtroSomenteLetrasComEspaco],
-                          icon: LucideIcons.building2,
+                          //icon: LucideIcons.building2,
                           maxLength: 100,
                         ),
                       ),
@@ -289,21 +281,16 @@ class _ConfiguracaoEmpresaPageState extends State<ConfiguracaoEmpresaPage> {
                         child: TextFormFieldWidget(
                           controller: enderecoTEC,
                           inputLabel: 'Endereço*',
-                          icon: LucideIcons.locateFixed,
+                          //icon: LucideIcons.locateFixed,
                           maxLength: 255,
                         ),
                       ),
-                    ],
-                  ),
-                  const SizedBoxWidget.sm(),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
+                      const SizedBoxWidget.sm(),
                       Expanded(
                         child: TextFormFieldWidget(
                           controller: numeroTEC,
                           inputLabel: 'Número*',
-                          icon: LucideIcons.house,
+                          //icon: LucideIcons.house,
                           maxLength: 20,
                         ),
                       ),
@@ -312,7 +299,7 @@ class _ConfiguracaoEmpresaPageState extends State<ConfiguracaoEmpresaPage> {
                         child: TextFormFieldWidget(
                           controller: complementoTEC,
                           inputLabel: 'Complemento',
-                          icon: LucideIcons.circleEllipsis,
+                          //icon: LucideIcons.circleEllipsis,
                           maxLength: 100,
                         ),
                       ),
@@ -323,11 +310,20 @@ class _ConfiguracaoEmpresaPageState extends State<ConfiguracaoEmpresaPage> {
                     controller: observacoesTEC,
                     inputLabel: 'Observações',
                     maxLines: 3,
-                    icon: LucideIcons.telescope,
+                    //icon: LucideIcons.telescope,
                   ),
                   const SizedBoxWidget.lg(),
                   ElevatedButtonWidget(
-                    label: 'Cadastrar',
+                    label: 'Adicionar Nova Logo (NÃO IMPLEMENTADO AINDA)',
+                    width: double.infinity,
+                    height: 40,
+                    isPrimary: false,
+                    icon: LucideIcons.imagePlus,
+                    onPressed: () {},
+                  ),
+                  const SizedBoxWidget.sm(),
+                  ElevatedButtonWidget(
+                    label: 'Salvar Alterações',
                     width: double.infinity,
                     height: 40,
                     onPressed: () async {
@@ -335,8 +331,8 @@ class _ConfiguracaoEmpresaPageState extends State<ConfiguracaoEmpresaPage> {
                         await QuickDialogWidget().erroMsg(
                           context: context,
                           texto:
-                              'Existem campos obrigatórios(*) não preenchidos - insira os dados faltantes para finalizar o cadastro.',
-                          textoBotao: 'Voltar ao Cadastro',
+                              'Existem campos obrigatórios(*) não preenchidos - insira os dados faltantes para finalizar a configuração.',
+                          textoBotao: 'Voltar para Configurações',
                         );
                         return;
                       } else if (!CNPJValidator.isValid(cpfCnpjTEC.text) &&
@@ -344,11 +340,11 @@ class _ConfiguracaoEmpresaPageState extends State<ConfiguracaoEmpresaPage> {
                         await QuickDialogWidget().erroMsg(
                           context: context,
                           texto: 'CPF ou CNPJ inválido.',
-                          textoBotao: 'Voltar ao Cadastro',
+                          textoBotao: 'Voltar para Configurações',
                         );
                         return;
                       }
-                      await cadastrarClienteFornecedor();
+                      await atualizarInfoEmpresa();
                     },
                   ),
                 ],
