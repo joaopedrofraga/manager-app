@@ -12,4 +12,8 @@ class AppImages {
   static String get loadingImage => 'assets/images/loading.svg';
 
   static String get emptyImage => 'assets/images/empty.svg';
+
+  static String get loginImage => 'assets/images/login.svg';
+
+  static String get registerImage => 'assets/images/register.svg';
 }
