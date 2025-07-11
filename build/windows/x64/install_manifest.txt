@@ -7,6 +7,8 @@ C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/assets/im
 C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/home_page2.svg
 C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/icon.png
 C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/loading.svg
+C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/login.svg
+C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/register.svg
 C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/FontManifest.json
 C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/fonts/MaterialIcons-Regular.otf
 C:/_Dev/manager-app/build/windows/x64/runner/Debug/data/flutter_assets/kernel_blob.bin
