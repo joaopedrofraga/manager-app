@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         TextWidget.title('Olá!'),
                         //const SizedBoxWidget.sm(),
-                        TextWidget.small('Faça login para continuar.'),
+                        TextWidget.small('Faça login para acessar o sistema.'),
                         SizedBoxWidget.xl(),
                         TextFormFieldWidget(
                           controller: TextEditingController(),

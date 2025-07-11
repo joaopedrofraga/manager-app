@@ -1,14 +1,21 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:bcrypt/bcrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:manager_app/core/config/app_colors.dart';
 import 'package:manager_app/core/config/app_images.dart';
+import 'package:manager_app/core/database/db_service.dart';
 import 'package:manager_app/core/extensions/media_query_extension.dart';
 import 'package:manager_app/main.dart';
+import 'package:manager_app/presentation/auth/register/validators/register_validator.dart';
 import 'package:manager_app/widgets/elevatedbutton_widget.dart';
+import 'package:manager_app/widgets/quick_dialog_widget.dart';
 import 'package:manager_app/widgets/sizedbox_widget.dart';
 import 'package:manager_app/widgets/text_widget.dart';
 import 'package:manager_app/widgets/textformfield_widget.dart';
+import 'package:postgres/postgres.dart';
 
 class RegisterPage extends StatefulWidget {
   static const String routeName = '/register';
@@ -19,6 +26,10 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  TextEditingController usuarioController = TextEditingController();
+  TextEditingController senhaController = TextEditingController();
+  TextEditingController confirmarSenhaController = TextEditingController();
+  TextEditingController senhaMestreController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,30 +64,34 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         SizedBoxWidget.xl(),
                         TextFormFieldWidget(
-                          controller: TextEditingController(),
+                          controller: usuarioController,
                           icon: LucideIcons.userRoundPlus,
                           inputLabel: 'Usuário',
+                          maxLength: 100,
                         ),
                         const SizedBoxWidget.md(),
                         TextFormFieldWidget(
-                          controller: TextEditingController(),
+                          controller: senhaController,
                           inputLabel: 'Senha',
                           isPassword: true,
                           icon: LucideIcons.lock,
+                          maxLength: 30,
                         ),
                         const SizedBoxWidget.md(),
                         TextFormFieldWidget(
-                          controller: TextEditingController(),
+                          controller: confirmarSenhaController,
                           inputLabel: 'Confirme a Senha',
                           isPassword: true,
                           icon: LucideIcons.lock,
+                          maxLength: 30,
                         ),
                         const SizedBoxWidget.md(),
                         TextFormFieldWidget(
-                          controller: TextEditingController(),
+                          controller: senhaMestreController,
                           inputLabel: 'Senha MESTRE',
                           isPassword: true,
                           icon: LucideIcons.shieldAlert,
+                          maxLength: 30,
                         ),
                         TextWidget.small(
                           'A senha mestre pode ser alterada a qualquer momento.',
@@ -85,8 +100,53 @@ class _RegisterPageState extends State<RegisterPage> {
                         ElevatedButtonWidget(
                           width: double.infinity,
                           height: 50,
-                          label: 'Entrar',
-                          onPressed: () {},
+                          label: 'Salvar',
+                          onPressed: () async {
+                            final valido = await RegisterValidator().validar(
+                              usuario: usuarioController.text,
+                              senha: senhaController.text,
+                              confirmarSenha: confirmarSenhaController.text,
+                              senhaMestre: senhaMestreController.text,
+                            );
+
+                            if (!valido['valido']) {
+                              QuickDialogWidget().erroMsg(
+                                context: context,
+                                texto: valido['erro'],
+                                textoBotao: 'Voltar',
+                              );
+                              return;
+                            }
+
+                            try {
+                              final db = await DbService().connection;
+                              await db.execute(
+                                Sql.named(
+                                  'INSERT INTO usuarios (usuario, senha) VALUES (@usuario, @senha)',
+                                ),
+                                parameters: {
+                                  'usuario': usuarioController.text,
+                                  'senha': BCrypt.hashpw(
+                                    senhaController.text,
+                                    BCrypt.gensalt(),
+                                  ),
+                                },
+                              );
+                              QuickDialogWidget().sucessoMsg(
+                                context: context,
+                                texto: 'Conta criada com sucesso!',
+                                textoBotao: 'Continuar',
+                              );
+                              Navigator.pushNamed(context, '/login');
+                            } catch (e) {
+                              QuickDialogWidget().erroMsg(
+                                context: context,
+                                texto: 'Erro ao criar conta: $e',
+                                textoBotao: 'Voltar',
+                              );
+                              return;
+                            }
+                          },
                         ),
                         const SizedBoxWidget.xxxs(),
                         InkWell(
