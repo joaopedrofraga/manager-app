@@ -1,5 +1,7 @@
 import 'package:bcrypt/bcrypt.dart';
 import 'package:manager_app/core/database/db_service.dart';
+import 'package:manager_app/core/global/global.dart';
+import 'package:manager_app/model/usuario_model.dart';
 import 'package:postgres/postgres.dart';
 
 class LoginValidator {
@@ -24,24 +26,23 @@ class LoginValidator {
 
     try {
       final db = await DbService().connection;
-      final resultadosQuery = await db.execute(
-        Sql.named('SELECT senha FROM usuarios WHERE usuario = @usuario'),
-        parameters: {'usuario': usuario},
-      );
-      if (resultadosQuery.isEmpty) {
-        return {'valido': false, 'erro': 'Usuário ou senha inválidos.'};
-      }
-      bool senhaCorreta = BCrypt.checkpw(
-        senha,
-        resultadosQuery.single.single.toString(),
-      );
-      if (!senhaCorreta) {
-        return {'valido': false, 'erro': 'Usuário ou senha inválidos.'};
+      final resultadosQuery = await db.execute('SELECT * FROM usuarios');
+      final todosUsuarios =
+          resultadosQuery.map((row) {
+            return UsuarioModel.fromMap(row.toColumnMap());
+          }).toList();
+      for (final usuarioAtual in todosUsuarios) {
+        if (usuarioAtual.usuario == usuario &&
+            BCrypt.checkpw(senha, usuarioAtual.senha) &&
+            usuarioAtual.ativo) {
+          Global().setUsuarioAtual(usuarioAtual);
+          return {'valido': true, 'erro': null};
+        }
       }
     } catch (e) {
       return {'valido': false, 'erro': 'Erro ao validar usuário: $e'};
     }
 
-    return {'valido': true, 'erro': null};
+    return {'valido': false, 'erro': 'Usuário ou senha inválidos.'};
   }
 }

@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                                 senha: senhaController.text,
                               );
                               if (!valido['valido']) {
-                                QuickDialogWidget().erroMsg(
+                                await QuickDialogWidget().erroMsg(
                                   context: context,
                                   texto: valido['erro'],
                                   textoBotao: 'Voltar',

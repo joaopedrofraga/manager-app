@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:manager_app/core/config/app_colors.dart';
 import 'package:manager_app/core/config/app_images.dart';
 import 'package:manager_app/core/config/app_material.dart';
+import 'package:manager_app/core/global/global.dart';
 import 'package:manager_app/main.dart';
 import 'package:manager_app/presentation/menus/cadastro/menu_cadastro.dart';
 import 'package:manager_app/presentation/menus/configuracao/botao_configuracao.dart';
@@ -74,7 +75,11 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                Center(child: TextWidget.bold('Versão $versao')),
+                Center(
+                  child: TextWidget.bold(
+                    'USUÁRIO: ${Global.getUsuarioAtual.usuario}',
+                  ),
+                ),
               ],
             ),
           ),
