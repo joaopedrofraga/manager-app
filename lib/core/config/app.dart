@@ -12,8 +12,9 @@ class App extends StatelessWidget {
       title: AppMaterial.title,
       theme: AppMaterial.getTheme,
       locale: AppMaterial.defaultLocale,
-      routes: AppRoutes.getRoutes,
+      //routes: AppRoutes.getRoutes,
       initialRoute: AppRoutes.initialRoute,
+      onGenerateRoute: AppRoutes.onGenerateRoute,
       localizationsDelegates: [GlobalMaterialLocalizations.delegate],
       supportedLocales: [AppMaterial.defaultLocale],
     );

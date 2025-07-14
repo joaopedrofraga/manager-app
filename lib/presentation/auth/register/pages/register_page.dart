@@ -52,112 +52,114 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Card(
                   color: AppColors.background,
                   elevation: 20,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TextWidget.title('Bem-vindo!'),
-                        //const SizedBoxWidget.sm(),
-                        TextWidget.small(
-                          'Preencha os campos para criar uma conta.',
-                        ),
-                        SizedBoxWidget.xl(),
-                        TextFormFieldWidget(
-                          controller: usuarioController,
-                          icon: LucideIcons.userRoundPlus,
-                          inputLabel: 'Usuário',
-                          maxLength: 100,
-                        ),
-                        const SizedBoxWidget.md(),
-                        TextFormFieldWidget(
-                          controller: senhaController,
-                          inputLabel: 'Senha',
-                          isPassword: true,
-                          icon: LucideIcons.lock,
-                          maxLength: 30,
-                        ),
-                        const SizedBoxWidget.md(),
-                        TextFormFieldWidget(
-                          controller: confirmarSenhaController,
-                          inputLabel: 'Confirme a Senha',
-                          isPassword: true,
-                          icon: LucideIcons.lock,
-                          maxLength: 30,
-                        ),
-                        const SizedBoxWidget.md(),
-                        TextFormFieldWidget(
-                          controller: senhaMestreController,
-                          inputLabel: 'Senha MESTRE',
-                          isPassword: true,
-                          icon: LucideIcons.shieldAlert,
-                          maxLength: 30,
-                        ),
-                        TextWidget.small(
-                          'A senha mestre pode ser alterada a qualquer momento.',
-                        ),
-                        const SizedBoxWidget.xl(),
-                        ElevatedButtonWidget(
-                          width: double.infinity,
-                          height: 50,
-                          label: 'Salvar',
-                          onPressed: () async {
-                            final valido = await RegisterValidator().validar(
-                              usuario: usuarioController.text,
-                              senha: senhaController.text,
-                              confirmarSenha: confirmarSenhaController.text,
-                              senhaMestre: senhaMestreController.text,
-                            );
-
-                            if (!valido['valido']) {
-                              QuickDialogWidget().erroMsg(
-                                context: context,
-                                texto: valido['erro'],
-                                textoBotao: 'Voltar',
-                              );
-                              return;
-                            }
-
-                            try {
-                              final db = await DbService().connection;
-                              await db.execute(
-                                Sql.named(
-                                  'INSERT INTO usuarios (usuario, senha) VALUES (@usuario, @senha)',
-                                ),
-                                parameters: {
-                                  'usuario': usuarioController.text,
-                                  'senha': BCrypt.hashpw(
-                                    senhaController.text,
-                                    BCrypt.gensalt(),
-                                  ),
-                                },
-                              );
-                              QuickDialogWidget().sucessoMsg(
-                                context: context,
-                                texto: 'Conta criada com sucesso!',
-                                textoBotao: 'Continuar',
-                              );
-                              Navigator.pushNamed(context, '/login');
-                            } catch (e) {
-                              QuickDialogWidget().erroMsg(
-                                context: context,
-                                texto: 'Erro ao criar conta: $e',
-                                textoBotao: 'Voltar',
-                              );
-                              return;
-                            }
-                          },
-                        ),
-                        const SizedBoxWidget.xxxs(),
-                        InkWell(
-                          onTap: () => Navigator.pushNamed(context, '/login'),
-                          borderRadius: BorderRadius.circular(3),
-                          child: TextWidget.small(
-                            ' Clique aqui para voltar para a tela de login. ',
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextWidget.title('Bem-vindo!'),
+                          //const SizedBoxWidget.sm(),
+                          TextWidget.small(
+                            'Preencha os campos para criar uma conta.',
                           ),
-                        ),
-                        TextWidget.small('Versão $versao'),
-                      ],
+                          SizedBoxWidget.xl(),
+                          TextFormFieldWidget(
+                            controller: usuarioController,
+                            icon: LucideIcons.userRoundPlus,
+                            inputLabel: 'Usuário',
+                            maxLength: 100,
+                          ),
+                          const SizedBoxWidget.md(),
+                          TextFormFieldWidget(
+                            controller: senhaController,
+                            inputLabel: 'Senha',
+                            isPassword: true,
+                            icon: LucideIcons.lock,
+                            maxLength: 30,
+                          ),
+                          const SizedBoxWidget.md(),
+                          TextFormFieldWidget(
+                            controller: confirmarSenhaController,
+                            inputLabel: 'Confirme a Senha',
+                            isPassword: true,
+                            icon: LucideIcons.lock,
+                            maxLength: 30,
+                          ),
+                          const SizedBoxWidget.md(),
+                          TextFormFieldWidget(
+                            controller: senhaMestreController,
+                            inputLabel: 'Senha MESTRE',
+                            isPassword: true,
+                            icon: LucideIcons.shieldAlert,
+                            maxLength: 30,
+                          ),
+                          TextWidget.small(
+                            'A senha mestre pode ser alterada a qualquer momento.',
+                          ),
+                          const SizedBoxWidget.xl(),
+                          ElevatedButtonWidget(
+                            width: double.infinity,
+                            height: 50,
+                            label: 'Salvar',
+                            onPressed: () async {
+                              final valido = await RegisterValidator().validar(
+                                usuario: usuarioController.text,
+                                senha: senhaController.text,
+                                confirmarSenha: confirmarSenhaController.text,
+                                senhaMestre: senhaMestreController.text,
+                              );
+
+                              if (!valido['valido']) {
+                                QuickDialogWidget().erroMsg(
+                                  context: context,
+                                  texto: valido['erro'],
+                                  textoBotao: 'Voltar',
+                                );
+                                return;
+                              }
+
+                              try {
+                                final db = await DbService().connection;
+                                await db.execute(
+                                  Sql.named(
+                                    'INSERT INTO usuarios (usuario, senha) VALUES (@usuario, @senha)',
+                                  ),
+                                  parameters: {
+                                    'usuario': usuarioController.text,
+                                    'senha': BCrypt.hashpw(
+                                      senhaController.text,
+                                      BCrypt.gensalt(),
+                                    ),
+                                  },
+                                );
+                                await QuickDialogWidget().sucessoMsg(
+                                  context: context,
+                                  texto: 'Conta criada com sucesso!',
+                                  textoBotao: 'Continuar',
+                                );
+                                Navigator.pushNamed(context, '/login');
+                              } catch (e) {
+                                await QuickDialogWidget().erroMsg(
+                                  context: context,
+                                  texto: 'Erro ao criar conta: $e',
+                                  textoBotao: 'Voltar',
+                                );
+                                return;
+                              }
+                            },
+                          ),
+                          const SizedBoxWidget.xxxs(),
+                          InkWell(
+                            onTap: () => Navigator.pushNamed(context, '/login'),
+                            borderRadius: BorderRadius.circular(3),
+                            child: TextWidget.small(
+                              ' Clique aqui para voltar para a tela de login. ',
+                            ),
+                          ),
+                          TextWidget.small('Versão $versao'),
+                        ],
+                      ),
                     ),
                   ),
                 ),
