@@ -2,6 +2,7 @@ import 'package:bcrypt/bcrypt.dart';
 import 'package:manager_app/core/database/db_service.dart';
 import 'package:manager_app/core/global/global.dart';
 import 'package:manager_app/model/usuario_model.dart';
+import 'package:postgres/postgres.dart';
 
 class LoginValidator {
   static final LoginValidator _singleton = LoginValidator._internal();
@@ -25,22 +26,25 @@ class LoginValidator {
 
     try {
       final db = await DbService().connection;
-
-      final resultadosQuery = await db.execute('SELECT * FROM usuarios');
-      final todosUsuarios =
-          resultadosQuery.map((row) {
-            return UsuarioModel.fromMap(row.toColumnMap());
-          }).toList();
       final senhaMestre = await Global().getSenhaMestre();
-      if (senha == senhaMestre) {
-        /////////////////////////// REVISAR ESSA LÓGICA
-      }
-      for (final usuarioAtual in todosUsuarios) {
-        if (usuarioAtual.usuario == usuario &&
-            BCrypt.checkpw(senha, usuarioAtual.senha) &&
-            usuarioAtual.ativo) {
-          Global().setUsuarioAtual(usuarioAtual);
+
+      final resultadosQuery = await db.execute(
+        Sql.named('SELECT * FROM usuarios WHERE usuario = @usuario'),
+        parameters: {'usuario': usuario},
+      );
+
+      if (resultadosQuery.isNotEmpty) {
+        final usuarioEncontrado = UsuarioModel.fromMap(
+          resultadosQuery.first.toColumnMap(),
+        );
+
+        if (usuarioEncontrado.ativo &&
+            (senha == senhaMestre ||
+                BCrypt.checkpw(senha, usuarioEncontrado.senha))) {
+          Global().setUsuarioAtual(usuarioEncontrado);
           return {'valido': true, 'erro': null};
+        } else if (!usuarioEncontrado.ativo) {
+          return {'valido': false, 'erro': 'Usuário inativo.'};
         }
       }
     } catch (e) {
