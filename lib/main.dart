@@ -9,4 +9,4 @@ void main() {
   });
 }
 
-const String versao = 'ALFA 1.4.2';
+const String versao = 'ALFA 1.4.4';

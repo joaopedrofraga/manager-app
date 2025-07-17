@@ -1,6 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:manager_app/core/extensions/media_query_extension.dart';
+import 'package:manager_app/core/global/global.dart';
 import 'package:manager_app/widgets/elevatedbutton_widget.dart';
 import 'package:manager_app/widgets/quick_dialog_widget.dart';
 import 'package:manager_app/widgets/sizedbox_widget.dart';
@@ -67,7 +70,8 @@ class _SenhaMestrePageState extends State<SenhaMestrePage> {
                     width: double.infinity,
                     height: 40,
                     onPressed: () async {
-                      if (senhaController.text == '1') {
+                      final senhaMestre = await Global().getSenhaMestre();
+                      if (senhaController.text == senhaMestre) {
                         Navigator.pop(context, true);
                       } else {
                         await QuickDialogWidget().erroMsg(
@@ -75,7 +79,6 @@ class _SenhaMestrePageState extends State<SenhaMestrePage> {
                           texto: 'A senha inserida é inválida.',
                           textoBotao: 'Voltar',
                         );
-                        // ignore: use_build_context_synchronously
                         Navigator.pop(context, false);
                       }
                     },

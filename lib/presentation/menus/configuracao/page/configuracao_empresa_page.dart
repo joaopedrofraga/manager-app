@@ -12,6 +12,7 @@ import 'package:manager_app/core/util/filtros_text_form_field.dart';
 import 'package:manager_app/core/util/formatar_cpf_cnpj.dart';
 import 'package:manager_app/model/info_empresa_model.dart';
 import 'package:manager_app/presentation/extra/senha_mestre_page.dart';
+import 'package:manager_app/presentation/menus/configuracao/page/alterar_senha_mestre_page.dart';
 import 'package:manager_app/widgets/elevatedbutton_widget.dart';
 import 'package:manager_app/widgets/quick_dialog_widget.dart';
 import 'package:manager_app/widgets/sizedbox_widget.dart';
@@ -175,7 +176,8 @@ class _ConfiguracaoEmpresaPageState extends State<ConfiguracaoEmpresaPage> {
                       TextWidget.title('Configuração da Empresa'),
                       const Spacer(),
                       IconButton(
-                        onPressed: () {},
+                        onPressed:
+                            () async => AlterarSenhaMestrePage.show(context),
                         icon: Icon(LucideIcons.rotateCcwKey),
                         tooltip: 'Alterar Senha Mestre',
                       ),
