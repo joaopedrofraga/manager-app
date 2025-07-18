@@ -2,8 +2,10 @@
 
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:manager_app/core/config/app_colors.dart';
 import 'package:manager_app/widgets/elevatedbutton_widget.dart';
+import 'package:manager_app/widgets/icon_button_widget.dart';
 import 'package:manager_app/widgets/sizedbox_widget.dart';
 import 'package:manager_app/widgets/textformfield_widget.dart';
 
@@ -129,16 +131,10 @@ class _DateTimeTextFormFieldWidgetState
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        IconButton(
+        IconButtonWidget(
           onPressed: () => _selectDateTime(context),
+          icon: LucideIcons.calendarDays,
           tooltip: 'Abrir Calendário',
-          icon: Icon(Icons.calendar_month, size: 30),
-          style: IconButton.styleFrom(
-            side: BorderSide(color: AppColors.primary, width: 1),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadiusGeometry.circular(8),
-            ),
-          ),
         ),
         const SizedBoxWidget.xxs(),
         Expanded(

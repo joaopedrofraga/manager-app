@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:manager_app/core/extensions/media_query_extension.dart';
 import 'package:manager_app/core/util/buscar_produto_no_banco_de_dados.dart';
+import 'package:manager_app/model/cliente_fornecedor_model.dart';
 import 'package:manager_app/model/produto_orcamento_model.dart';
 import 'package:manager_app/widgets/datetime_textformfield_widget.dart';
 import 'package:manager_app/widgets/elevatedbutton_widget.dart';
+import 'package:manager_app/widgets/icon_button_widget.dart';
 import 'package:manager_app/widgets/produto_orcamento_list_tile_widget.dart';
 import 'package:manager_app/widgets/sizedbox_widget.dart';
 import 'package:manager_app/widgets/text_widget.dart';
@@ -30,6 +32,7 @@ class _CriarOrcamentoPageState extends State<CriarOrcamentoPage> {
   DateTime dataHoraOrcamento = DateTime.now();
   TextEditingController codigoOuDescricaoController = TextEditingController();
   List<ProdutoOrcamentoModel> produtosOrcamento = [];
+  List<ClienteFornecedorModel> clientesFornecedores = [];
 
   void updateDataHora(DateTime novaDataHora) {
     setState(() {
@@ -70,10 +73,22 @@ class _CriarOrcamentoPageState extends State<CriarOrcamentoPage> {
                     updateDataHora: updateDataHora,
                   ),
                   const SizedBoxWidget.md(),
-                  TextFormFieldWidget(
-                    controller: TextEditingController(),
-                    inputLabel: 'Cliente',
-                    icon: LucideIcons.user,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormFieldWidget(
+                          controller: TextEditingController(),
+                          inputLabel: 'Cliente',
+                          icon: LucideIcons.user,
+                        ),
+                      ),
+                      const SizedBoxWidget.xs(),
+                      IconButtonWidget(
+                        onPressed: () {},
+                        icon: LucideIcons.search,
+                        tooltip: 'Buscar Cliente',
+                      ),
+                    ],
                   ),
                   const SizedBoxWidget.sm(),
                   Divider(),
